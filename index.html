@@ -1,0 +1,3161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMER-OB-CRUSHER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============ ROOT VARIABLES ============ */
+:root {
+  --bg: #060913;
+  --bg-2: #0c1020;
+  --panel: rgba(14, 20, 40, 0.9);
+  --panel-2: rgba(26, 35, 68, 0.7);
+  --ink: #f0f4fc;
+  --muted: #94a3b8;
+  --fire-red: #ff3333;
+  --fire-orange: #ff7700;
+  --fire-yellow: #ffcc00;
+  --ice-blue: #00f3ff;
+  --ice-deep: #0055ff;
+  --neon-purple: #bd00ff;
+  --neon-green: #00ff66;
+  --correct: #10b981;
+  --wrong: #ef4444;
+  --gold: #f59e0b;
+  --line: rgba(0, 243, 255, 0.15);
+  --shadow: 0 15px 40px -10px rgba(0,0,0,0.7);
+  --pomo-glow: 0 0 25px rgba(255, 51, 51, 0.5);
+  --glow-red: 0 0 20px rgba(255,51,51,0.5), 0 0 40px rgba(255,119,0,0.3);
+  --glow-blue: 0 0 20px rgba(0,243,255,0.5), 0 0 40px rgba(0,85,255,0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--panel-2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ice-blue);
+}
+
+/* Base Utility Classes */
+.hidden { display: none !important; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+
+/* Custom Wavy Gradient Text for Animated Title */
+.title-amer {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  background: linear-gradient(90deg, var(--fire-red), var(--fire-yellow), var(--ice-blue), var(--neon-purple));
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGradient 8s ease infinite;
+}
+
+@keyframes waveGradient {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* Individual letter floating animation */
+.float-letter {
+  display: inline-block;
+  animation: floatingChar 2.5s ease-in-out infinite;
+}
+.float-letter:nth-child(1) { animation-delay: 0s; }
+.float-letter:nth-child(2) { animation-delay: 0.2s; }
+.float-letter:nth-child(3) { animation-delay: 0.4s; }
+.float-letter:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes floatingChar {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+/* Header */
+header.app-header {
+  padding: 30px 20px 20px;
+  text-align: center;
+  position: relative;
+}
+.title-block {
+  line-height: 0.95;
+  letter-spacing: 0.08em;
+  display: inline-block;
+  position: relative;
+}
+.title-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.15em;
+  flex-wrap: wrap;
+}
+.title-row-2 .title-letter {
+  background: linear-gradient(180deg, var(--ice-blue), var(--ice-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(0,243,255,0.5));
+  font-size: clamp(35px, 7.5vw, 68px);
+  font-weight: 900;
+}
+.title-letter {
+  display: inline-block;
+  font-size: clamp(40px, 9vw, 80px);
+  background: linear-gradient(180deg, var(--fire-yellow), var(--fire-orange), var(--fire-red));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(255,119,0,0.5));
+  font-weight: 900;
+  cursor: default;
+}
+.subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: .4em;
+  color: var(--muted);
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+.copyright {
+  position: absolute;
+  bottom: -8px;
+  right: 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  letter-spacing: .15em;
+  color: var(--muted);
+  opacity: .6;
+}
+
+/* Pattern Lock Startup Screen */
+#patternLockScreen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #0b0f24 0%, #03050c 100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lock-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  color: var(--ice-blue);
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.lock-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+#patternCanvas {
+  background: rgba(10, 15, 35, 0.8);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+  cursor: pointer;
+}
+
+/* Background Animated Layers */
+#bgContainer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.bg-layer.active {
+  opacity: 1;
+}
+
+.bg-aurora {
+  background: linear-gradient(135deg, #050814, #0e1329);
+}
+.bg-aurora::before, .bg-aurora::after {
+  content: "";
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: auroraFloat 25s ease-in-out infinite;
+}
+.bg-aurora::before {
+  background: radial-gradient(circle, var(--fire-red), transparent 70%);
+  top: -15%;
+  left: -15%;
+}
+.bg-aurora::after {
+  background: radial-gradient(circle, var(--ice-deep), transparent 70%);
+  bottom: -15%;
+  right: -15%;
+  animation-delay: -12.5s;
+}
+
+@keyframes auroraFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12vw, 8vw) scale(1.15); }
+}
+
+.bg-grid {
+  background: #040712;
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-neural, .bg-particles, .bg-stars, .bg-fireflies, .bg-matrix {
+  background: #040712;
+}
+.bg-neural canvas, .bg-particles canvas, .bg-stars canvas, .bg-fireflies canvas, .bg-matrix canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-blobs {
+  background: #040712;
+}
+.bg-blobs::before, .bg-blobs::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+.bg-blobs::before {
+  width: 300px;
+  height: 300px;
+  background: var(--fire-red);
+  top: 20%;
+  left: 10%;
+  animation: blobMove 12s ease-in-out infinite;
+}
+.bg-blobs::after {
+  width: 350px;
+  height: 350px;
+  background: var(--ice-blue);
+  bottom: 15%;
+  right: 10%;
+  animation: blobMove 14s ease-in-out infinite reverse;
+}
+@keyframes blobMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -40px) scale(1.15); }
+  66% { transform: translate(-40px, 50px) scale(0.9); }
+}
+
+.bg-rings {
+  background: radial-gradient(circle at center, #111827, #040712);
+}
+.bg-rings::before, .bg-rings::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.bg-rings::before {
+  width: 500px;
+  height: 500px;
+  border-top-color: var(--fire-red);
+  border-right-color: var(--fire-orange);
+  animation: ringSpin 12s linear infinite;
+}
+.bg-rings::after {
+  width: 350px;
+  height: 350px;
+  border-bottom-color: var(--ice-blue);
+  border-left-color: var(--neon-purple);
+  animation: ringSpin 10s linear infinite reverse;
+}
+@keyframes ringSpin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.bg-nebula {
+  background: radial-gradient(ellipse at 30% 40%, rgba(189,0,255,0.25), transparent 50%),
+              radial-gradient(ellipse at 70% 60%, rgba(0,243,255,0.2), transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(255,119,0,0.15), transparent 50%),
+              #040712;
+  animation: nebulaShift 18s ease-in-out infinite;
+}
+@keyframes nebulaShift {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(45deg); }
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(4, 6, 14, 0.93);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  max-width: 650px;
+  width: 100%;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+  color: var(--wrong);
+}
+
+.custom-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.custom-btn {
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+}
+
+.custom-btn:hover {
+  background: linear-gradient(135deg, var(--ice-deep), var(--ice-blue));
+  border-color: transparent;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.custom-btn.active {
+  background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Review Mode */
+.review-container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  padding-top: 50px;
+}
+.review-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  background: linear-gradient(135deg, var(--gold), var(--fire-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.review-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.review-q-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.review-item h4 {
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+.review-opt {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-size: 14px;
+}
+.review-opt.correct {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--correct);
+  color: var(--correct);
+  font-weight: 700;
+}
+.review-rat {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(0, 243, 255, 0.05);
+  border-left: 3px solid var(--ice-blue);
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Control Panel */
+.control-panel {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(6, 9, 19, 0.92);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-2);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.ctrl-btn i {
+  font-size: 13px;
+}
+.ctrl-btn:hover {
+  background: linear-gradient(135deg, rgba(255,119,0,0.2), rgba(255,51,51,0.1));
+  border-color: var(--fire-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255,119,0,0.2);
+}
+.ctrl-btn.active {
+  background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--glow-red);
+}
+.ctrl-btn.blue-active {
+  background: linear-gradient(135deg, var(--ice-deep), var(--ice-blue));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--glow-blue);
+}
+
+/* Gaming HUD */
+.gaming-hud {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 45;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+body.gaming-mode .gaming-hud {
+  display: flex;
+}
+.hud-item {
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.hud-item .ico { color: var(--fire-orange); }
+.hud-item .val { color: var(--gold); font-weight: 700; }
+.hud-streak .val { color: var(--fire-red); }
+.hud-combo .val { color: var(--neon-purple); }
+
+/* MAIN LAYOUT GRID */
+.main-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}
+
+@media(max-width: 992px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SIDE PANEL */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.side-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.side-card h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--ice-blue);
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* INTERACTIVE POMODORO TIMER */
+.pomo-circle-wrap {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto;
+}
+
+.pomo-circle-wrap svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.pomo-circle-wrap .ring-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.05);
+  stroke-width: 8;
+}
+
+.pomo-circle-wrap .ring-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
+}
+
+.pomo-inner-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pomo-time-display {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.pomo-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.pomo-customizer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 15px;
+}
+
+.pomo-theme-btn {
+  padding: 6px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.pomo-theme-btn.active {
+  color: #fff;
+}
+
+.pomo-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.25s;
+}
+.pomo-btn:hover {
+  background: var(--fire-orange);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.pomo-mode {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pomo-mode.active {
+  background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+  color: #fff;
+  border-color: transparent;
+}
+.pomo-modes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Stats panel */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,243,255,0.06);
+}
+.stat-row:last-child {
+  border-bottom: none;
+}
+.stat-row .lbl {
+  font-size: 12px;
+  color: var(--muted);
+}
+.stat-row .val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fire-yellow);
+}
+
+/* Achievements */
+.achv-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+}
+.achv {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,0.3);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: help;
+}
+.achv.unlocked {
+  background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(255,119,0,0.15));
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 15px rgba(245,158,11,0.3);
+  animation: achvPulse 2s ease-in-out infinite;
+}
+@keyframes achvPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.achv-tooltip {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-2);
+  color: var(--ink);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+  border: 1px solid var(--line);
+}
+.achv:hover .achv-tooltip {
+  opacity: 1;
+}
+
+/* Background selector */
+.bg-selector {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.bg-thumb {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.bg-thumb:hover {
+  transform: scale(1.1);
+}
+.bg-thumb.active {
+  border-color: var(--fire-orange);
+  box-shadow: var(--glow-red);
+}
+.bg-thumb span {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 8px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* QUIZ CARD INTERACTION */
+.quiz-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quiz-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
+  margin-bottom: 15px;
+}
+.meta-chip {
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.chip-cat {
+  background: linear-gradient(135deg, var(--neon-purple), var(--fire-red));
+  color: #fff;
+}
+.chip-topic {
+  background: rgba(0, 243, 255, 0.12);
+  color: var(--ice-blue);
+  border: 1px solid var(--line);
+}
+.chip-q {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.q-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  letter-spacing: .15em;
+  color: var(--fire-orange);
+  margin-bottom: 10px;
+}
+.q-text {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.quiz-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.quiz-card.correct-flash {
+  border-color: var(--correct);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4), var(--shadow);
+  animation: correctPulse .6s ease;
+}
+.quiz-card.wrong-flash {
+  border-color: var(--wrong);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.4), var(--shadow);
+  animation: wrongShake .5s ease;
+}
+@keyframes correctPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.option:hover {
+  background: rgba(0, 243, 255, 0.05);
+  border-color: var(--ice-blue);
+  transform: translateX(4px);
+}
+
+.option .letter-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--panel-2);
+  color: var(--ice-blue);
+  border: 1px solid var(--line);
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.option .opt-content {
+  flex: 1;
+  font-size: 14.5px;
+  line-height: 1.5;
+  padding-top: 2px;
+}
+
+.option.highlighted {
+  border-color: var(--gold) !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.15);
+}
+
+.option.highlighted .letter-badge {
+  background: var(--gold) !important;
+  color: #000 !important;
+}
+
+.option.eliminated {
+  opacity: 0.3;
+  text-decoration: line-through;
+  pointer-events: none;
+}
+.option.eliminated .letter-badge {
+  background: var(--wrong);
+  color: #fff;
+  text-decoration: line-through;
+}
+
+.option.correct {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--correct) !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.option.correct .letter-badge {
+  background: var(--correct) !important;
+  color: #fff !important;
+}
+
+.option.wrong {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: var(--wrong) !important;
+}
+
+.option.wrong .letter-badge {
+  background: var(--wrong) !important;
+  color: #fff !important;
+}
+
+/* Option Quick Actions */
+.option-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.option:hover .option-actions {
+  opacity: 1;
+}
+
+.action-ico-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: var(--panel-2);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s;
+  display: grid;
+  place-items: center;
+}
+
+.action-ico-btn:hover {
+  color: #fff;
+  background: var(--ice-blue);
+}
+
+/* Rationale box */
+.rationale-box {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0,243,255,0.08), rgba(189,0,255,0.05));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ice-blue);
+  display: none;
+}
+.rationale-box.show {
+  display: block;
+  animation: slideUp .4s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rationale-box .rat-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--ice-blue);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rationale-box .rat-text {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  font-style: italic;
+}
+
+/* Feedback bar */
+.feedback-bar {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+.feedback-bar.show {
+  display: flex;
+  animation: slideUp .3s ease;
+}
+.feedback-bar.correct {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--correct);
+  border: 1px solid var(--correct);
+}
+.feedback-bar.wrong {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--wrong);
+  border: 1px solid var(--wrong);
+}
+
+/* Rating Stars */
+.rating-stars {
+  display: inline-flex;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.star-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-btn.active {
+  color: var(--gold);
+}
+
+/* Personal comments text area */
+.notes-container {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.notes-textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.notes-textarea:focus {
+  border-color: var(--ice-blue);
+}
+
+/* WhatsApp Share Widget */
+.share-dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.share-options-list {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px;
+  width: 260px;
+  z-index: 10;
+  box-shadow: var(--shadow);
+  display: none;
+}
+
+.share-options-list.show {
+  display: block;
+}
+
+.share-option-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 12.5px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.share-option-item:hover {
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--ice-blue);
+}
+
+/* Quiz Navigation */
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.nav-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--ice-deep), var(--ice-blue));
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--glow-blue);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.nav-btn.end-btn {
+  background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+  color: #fff;
+  border-color: transparent;
+}
+.nav-btn.end-btn:hover {
+  box-shadow: var(--glow-red);
+}
+.nav-progress {
+  flex: 1;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  min-width: 120px;
+}
+
+/* Stress Bar */
+.stress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0,243,255,0.1);
+  overflow: hidden;
+  margin-bottom: 8px;
+  display: none;
+}
+.stress-bar.show {
+  display: block;
+}
+.stress-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--correct), var(--gold), var(--fire-orange), var(--wrong));
+  transition: width 1s linear;
+}
+.stress-text {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: var(--fire-orange);
+  letter-spacing: .15em;
+  display: none;
+  margin-bottom: 12px;
+}
+.stress-text.show {
+  display: block;
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 5px;
+  background: rgba(0,243,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--fire-red), var(--fire-orange), var(--gold));
+  transition: width .4s ease;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(255,119,0,0.5);
+}
+
+/* Celebration */
+#celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  pointer-events: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+#celebration.show {
+  display: flex;
+}
+.celebration-msg {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  background: linear-gradient(135deg, var(--gold), var(--fire-orange), var(--fire-red));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(255,158,11,0.6));
+  animation: celebrateMsgScale 1.5s ease;
+}
+@keyframes celebrateMsgScale {
+  0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall 3.2s linear forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Results stats card */
+.results-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 30px 0;
+}
+.r-stat {
+  padding: 20px 10px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+.r-stat .num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+}
+.r-stat .lbl {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.r-stat.correct .num { color: var(--correct); }
+.r-stat.wrong .num { color: var(--wrong); }
+.r-stat.total .num { color: var(--gold); }
+
+/* Audio viz */
+.audio-viz {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 40;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px;
+  pointer-events: none;
+}
+.audio-viz.show {
+  display: flex;
+}
+.viz-bar {
+  width: 6px;
+  background: linear-gradient(180deg, var(--fire-yellow), var(--fire-red));
+  border-radius: 3px 3px 0 0;
+  transition: height .1s ease;
+  box-shadow: 0 0 8px rgba(255,119,0,0.4);
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 700;
+  padding: 12px 24px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(10px);
+}
+#toast.success { border-color: var(--correct); color: var(--correct); }
+#toast.error { border-color: var(--wrong); color: var(--wrong); }
+#toast.info { border-color: var(--ice-blue); color: var(--ice-blue); }
+
+/* Footer */
+footer {
+  padding: 24px;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+}
+footer .heart {
+  color: var(--fire-red);
+  animation: heartbeat 1.5s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Custom visual animation option states */
+.transition-fade { transition: opacity 0.3s ease; }
+.transition-slide { transition: transform 0.3s ease, opacity 0.3s ease; }
+.transition-scale { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
+
+/* Focus Mode */
+body.focus-mode .side-panel {
+  display: none;
+}
+body.focus-mode .main-grid {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+}
+body.focus-mode .control-panel {
+  opacity: 0.35;
+}
+body.focus-mode .control-panel:hover {
+  opacity: 1;
+}
+
+/* Gaming Mode specific styling */
+body.gaming-mode .quiz-card {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 20px rgba(189,0,255,0.25), var(--shadow);
+}
+
+/* Responsive design adjustments */
+@media(max-width: 600px) {
+  header.app-header { padding: 20px 10px 15px; }
+  .quiz-card { padding: 20px; }
+  .q-text { font-size: 15px; }
+  .option { padding: 12px; }
+  .ctrl-btn { padding: 6px 10px; font-size: 11px; }
+  .ctrl-btn span { display: none; }
+  .ctrl-btn i { font-size: 14px; }
+  .results-stats { grid-template-columns: 1fr; }
+  .results-title { font-size: 36px; }
+  .results-score { font-size: 32px; }
+  .custom-options { grid-template-columns: 1fr; }
+  .copyright { position: static; margin-top: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ STARTUP PATTERN GUARD ============ -->
+<div id="patternLockScreen">
+  <div class="lock-title">AMER-OB-CRUSHER</div>
+  <div class="lock-subtitle">Draw a U-shape connecting bottom nodes first to unlock the platform</div>
+  <canvas id="patternCanvas" width="300" height="300"></canvas>
+  <div style="margin-top: 15px; font-size: 12px; color: var(--muted); text-align: center;">
+    Connect: Top-Left → Mid-Left → Bottom-Left → Bottom-Mid → Bottom-Right → Mid-Right → Top-Right
+  </div>
+  <button onclick="bypassLock()" style="margin-top: 25px; padding: 6px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--muted); font-size: 11px; cursor: pointer;">
+    Bypass Lock
+  </button>
+</div>
+
+<!-- ============ BACKGROUND CONTAINER ============ -->
+<div id="bgContainer">
+  <div class="bg-layer bg-aurora active" data-bg="0"></div>
+  <div class="bg-layer bg-particles" data-bg="1"><canvas></canvas></div>
+  <div class="bg-layer bg-grid" data-bg="2"></div>
+  <div class="bg-layer bg-neural" data-bg="3"><canvas></canvas></div>
+  <div class="bg-layer bg-stars" data-bg="4"><canvas></canvas></div>
+  <div class="bg-layer bg-blobs" data-bg="5"></div>
+  <div class="bg-layer bg-rings" data-bg="6"></div>
+  <div class="bg-layer bg-fireflies" data-bg="7"><canvas></canvas></div>
+  <div class="bg-layer bg-matrix" data-bg="8"><canvas></canvas></div>
+  <div class="bg-layer bg-nebula" data-bg="9"></div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div id="tutorial" class="modal-overlay">
+  <div class="modal-card">
+    <button class="modal-close-btn" onclick="toggleTutorial()"><i class="fa-solid fa-xmark"></i></button>
+    <h3 style="font-family:'Orbitron',sans-serif; color:var(--ice-blue); margin-bottom:15px;"><i class="fa-solid fa-graduation-cap"></i> Interactive Tutorial</h3>
+    <p style="font-size:14px; margin-bottom:12px;">Welcome to <strong>AMER-OB-CRUSHER</strong>, designed for medical students and clinicians. This database contains all 279 verified MCQs from <em>part 2 .txt</em> and original pools verbatim.</p>
+    
+    <h4 style="color:var(--gold); font-size:13px; margin:15px 0 6px;">Key Features:</h4>
+    <ul style="font-size:13px; padding-left:18px; margin-bottom:15px; line-height:1.7;">
+      <li><strong>Critical Thinking Helper:</strong> Hover on any option to highlight (<i class="fa-solid fa-highlighter"></i>) or eliminate (<i class="fa-solid fa-xmark"></i>) options.</li>
+      <li><strong>Flexible Background Animations:</strong> Cycle through 10 dynamic background themes in the sidebar.</li>
+      <li><strong>Ratings & Local Comments:</strong> Add stars and type comments per question. They save automatically.</li>
+      <li><strong>Structured WhatsApp Shares:</strong> Share directly via 4 decent modes containing formatted emojis and titles.</li>
+    </ul>
+    <button onclick="toggleTutorial()" class="ctrl-btn active" style="width:100%; justify-content:center; padding:12px;">Start Practicing</button>
+  </div>
+</div>
+
+<div id="customModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="modal-close-btn" onclick="closeCustomModal()"><i class="fa-solid fa-xmark"></i></button>
+    <h3 style="font-family:'Orbitron',sans-serif; color:var(--ice-blue); margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> Session Setup</h3>
+    <p style="font-size:13px; margin-bottom:15px;">Configure your custom MCQ practice block from the active database pool.</p>
+    <div class="custom-options">
+      <button class="custom-btn" onclick="startCustomQuiz(10)">10 Questions</button>
+      <button class="custom-btn" onclick="startCustomQuiz(25)">25 Questions</button>
+      <button class="custom-btn" onclick="startCustomQuiz(50)">50 Questions</button>
+      <button class="custom-btn" onclick="startCustomQuiz(100)">100 Questions</button>
+      <button class="custom-btn" onclick="startCustomQuiz(169)">Part 2 Only (169)</button>
+      <button class="custom-btn" onclick="startCustomQuiz(110)">Part 1 Only (110)</button>
+    </div>
+    <div style="margin-top: 15px;">
+      <button class="custom-btn" style="width:100%; background:linear-gradient(135deg,var(--fire-red),var(--fire-orange)); border:none; color:white;" onclick="startCustomQuiz(279)">All 279 Questions</button>
+    </div>
+  </div>
+</div>
+
+<div id="reviewScreen" class="modal-overlay">
+  <button class="modal-close-btn" onclick="closeReviewMode()" style="position:fixed; top:20px; right:20px; z-index:1002; background:var(--panel); border-radius:50%; width:40px; height:40px; display:grid; place-items:center;"><i class="fa-solid fa-xmark"></i></button>
+  <div class="review-container">
+    <h2 class="review-title">Comprehensive Study Sheet</h2>
+    <div id="reviewContent"></div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP CONTAINER ============ -->
+<div id="app">
+  
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="title-block">
+      <div class="title-row">
+        <span class="title-letter float-letter">A</span>
+        <span class="title-letter float-letter">M</span>
+        <span class="title-letter float-letter">E</span>
+        <span class="title-letter float-letter">R</span>
+      </div>
+      <div class="title-row title-row-2">
+        <span class="title-letter">O</span>
+        <span class="title-letter">B</span>
+        <span class="title-letter">G</span>
+      </div>
+      <div class="title-row title-row-3">
+        <span class="title-amer">cRuShEr</span>
+      </div>
+    </div>
+    <div class="subtitle">Verbatim OBG Bank from part 2 .txt</div>
+    <div class="copyright">© AMER ALSHRIF 2026</div>
+  </header>
+
+  <!-- CONTROL PANEL -->
+  <div class="control-panel">
+    <button class="ctrl-btn" onclick="openCustomModal()" title="Custom block"><i class="fa-solid fa-sliders"></i><span>Custom</span></button>
+    <button class="ctrl-btn" onclick="openReviewMode()" title="Review master list"><i class="fa-solid fa-book-open"></i><span>Review</span></button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="Fullscreen mode"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
+    <button class="ctrl-btn" onclick="toggleFocus()" title="Focus Mode"><i class="fa-solid fa-bullseye"></i><span>Focus</span></button>
+    <button class="ctrl-btn" onclick="shuffleQuestions()" title="Shuffle Order"><i class="fa-solid fa-shuffle"></i><span>Shuffle</span></button>
+    <button class="ctrl-btn" id="stressBtn" onclick="toggleTimeStress()" title="Time Stress mode"><i class="fa-solid fa-stopwatch"></i><span>Stress</span></button>
+    <button class="ctrl-btn" id="gamingBtn" onclick="toggleGaming()" title="Gamified interface"><i class="fa-solid fa-gamepad"></i><span>Gaming</span></button>
+    <button class="ctrl-btn" id="audioBtn" onclick="toggleAudio()" title="Synthesized sound effects"><i class="fa-solid fa-volume-high"></i><span>Audio</span></button>
+    <button class="ctrl-btn" onclick="toggleTutorial()" title="Platform tutorial"><i class="fa-solid fa-graduation-cap"></i><span>Tutorial</span></button>
+    <button class="ctrl-btn" onclick="resetQuiz()" title="Reset session stats"><i class="fa-solid fa-rotate-left"></i><span>Reset</span></button>
+    <button class="ctrl-btn end-btn" onclick="endQuiz()" title="Finish & grade"><i class="fa-solid fa-flag-checkered"></i><span>End Block</span></button>
+  </div>
+
+  <!-- GAMING HUD -->
+  <div class="gaming-hud">
+    <div class="hud-item hud-xp"><i class="fa-solid fa-star ico"></i> XP <span class="val" id="hudXP">0</span></div>
+    <div class="hud-item hud-streak"><i class="fa-solid fa-fire ico"></i> Streak <span class="val" id="hudStreak">0</span></div>
+    <div class="hud-item hud-combo"><i class="fa-solid fa-bolt ico"></i> Combo <span class="val" id="hudCombo">x1</span></div>
+  </div>
+
+  <!-- MAIN AREA LAYOUT -->
+  <div class="main-grid">
+    
+    <!-- SIDEBAR -->
+    <aside class="side-panel">
+      
+      <!-- POMODORO RING CARD WITH COLOR CUSTOMIZATION -->
+      <div class="side-card">
+        <h4><i class="fa-solid fa-clock"></i> Pomodoro customizable</h4>
+        <div class="pomodoro-wrap">
+          <div class="pomo-circle-wrap">
+            <svg viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="fireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffd23f"/>
+                  <stop offset="50%" stop-color="#ff7700"/>
+                  <stop offset="100%" stop-color="#ff3333"/>
+                </linearGradient>
+                <linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00f3ff"/>
+                  <stop offset="100%" stop-color="#0055ff"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="100" cy="100" r="88"/>
+              <circle class="ring-progress" id="ringPomo" cx="100" cy="100" r="88" stroke="url(#fireGrad)" stroke-dasharray="552.9" stroke-dashoffset="0"/>
+            </svg>
+            <div class="pomo-inner-text">
+              <div class="pomo-time-display" id="pomoTime">25:00</div>
+              <div class="pomo-label" id="pomoLabel">FOCUS</div>
+            </div>
+          </div>
+          <div class="pomodoro-controls" style="margin-top: 10px; display: flex; gap: 6px; justify-content: center;">
+            <button class="pomo-btn" onclick="pomoStart()"><i class="fa-solid fa-play"></i></button>
+            <button class="pomo-btn" onclick="pomoPause()"><i class="fa-solid fa-pause"></i></button>
+            <button class="pomo-btn" onclick="pomoReset()"><i class="fa-solid fa-rotate"></i></button>
+          </div>
+          <div class="pomo-modes" style="margin-top: 10px;">
+            <button class="pomo-mode active" onclick="pomoSetMode('focus',25,'FOCUS', this)">Focus</button>
+            <button class="pomo-mode" onclick="pomoSetMode('short',5,'SHORT BREAK', this)">Short</button>
+            <button class="pomo-mode" onclick="pomoSetMode('long',15,'LONG BREAK', this)">Long</button>
+          </div>
+          <!-- Pomodoro color customized themes -->
+          <div class="pomo-customizer">
+            <button class="pomo-theme-btn active" style="border-color:var(--fire-red); background:rgba(255,51,51,0.15);" onclick="setPomoTheme('volcano', this)">Fire</button>
+            <button class="pomo-theme-btn" style="border-color:var(--ice-blue); background:rgba(0,243,255,0.15);" onclick="setPomoTheme('ice', this)">Ice</button>
+            <button class="pomo-theme-btn" style="border-color:var(--neon-purple); background:rgba(189,0,255,0.15);" onclick="setPomoTheme('purple', this)">Neon</button>
+            <button class="pomo-theme-btn" style="border-color:var(--neon-green); background:rgba(0,255,102,0.15);" onclick="setPomoTheme('green', this)">Acid</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MASTER STATS CARD -->
+      <div class="side-card">
+        <h4><i class="fa-solid fa-chart-line"></i> Statistics</h4>
+        <div class="progress-bar" style="margin-bottom: 12px;"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="stat-row"><span class="lbl">Session Target</span><span class="val" id="statTotal">279</span></div>
+        <div class="stat-row"><span class="lbl">Answered</span><span class="val" id="statAnswered">0/279</span></div>
+        <div class="stat-row"><span class="lbl">Correct Hits</span><span class="val" id="statCorrect" style="color:var(--correct)">0</span></div>
+        <div class="stat-row"><span class="lbl">Incorrect Hits</span><span class="val" id="statWrong" style="color:var(--wrong)">0</span></div>
+        <div class="stat-row"><span class="lbl">Accuracy Rate</span><span class="val" id="statAcc">0%</span></div>
+      </div>
+
+      <!-- COMPLETED ACHIEVEMENTS -->
+      <div class="side-card">
+        <h4><i class="fa-solid fa-trophy"></i> Master achievements</h4>
+        <div class="achv-grid" id="achvGrid"></div>
+      </div>
+
+      <!-- REAL-TIME BACKGROUND SWAPPER -->
+      <div class="side-card">
+        <h4><i class="fa-solid fa-clapperboard"></i> Animated Themes</h4>
+        <div class="bg-selector" id="bgSelector"></div>
+      </div>
+
+      <!-- OPTIONAL ANIMATION SWAPPER -->
+      <div class="side-card">
+        <h4><i class="fa-solid fa-gear"></i> Animation Speed</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <select id="animationTypeSelect" onchange="changeAnimationType()" style="width:100%; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px; color:#fff; font-size:12px;">
+            <option value="fade">Smooth Fade Transition</option>
+            <option value="slide">Slide Transition</option>
+            <option value="scale">Bounce Scale Transition</option>
+          </select>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- CONTENT MODULE -->
+    <div class="quiz-area">
+      
+      <!-- STRESS BAR -->
+      <div class="stress-bar" id="stressBar">
+        <div class="stress-fill" id="stressFill"></div>
+      </div>
+      <div class="stress-text" id="stressText"></div>
+
+      <!-- MASTER MCQ CARD -->
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-meta" id="quizMeta"></div>
+        <div class="q-number" id="qNumber"></div>
+        <div class="q-text" id="qText"></div>
+        <div class="options" id="options"></div>
+
+        <!-- Hidden Answer Block - Revealed after Answer choice -->
+        <div class="rationale-box" id="rationaleBox">
+          <div class="rat-label"><i class="fa-solid fa-lightbulb"></i> Explaining & Key Takeaway</div>
+          <div class="rat-text" id="ratText" style="margin-bottom: 12px;"></div>
+          <div style="background: rgba(0, 243, 255, 0.05); border: 1px dashed var(--line); padding: 10px; border-radius: 8px; font-size: 13px; color: var(--ice-blue);">
+            <strong>Takeaway Concept:</strong> <span id="takeawayText"></span>
+          </div>
+        </div>
+
+        <div class="feedback-bar" id="feedbackBar"></div>
+
+        <!-- Interactive star rating and customized sticky comments -->
+        <div class="notes-container">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:12px; color:var(--muted);">Rate MCQ:</span>
+              <div class="rating-stars" id="ratingStars">
+                <button class="star-btn" onclick="rateQuestion(1)"><i class="fa-solid fa-star"></i></button>
+                <button class="star-btn" onclick="rateQuestion(2)"><i class="fa-solid fa-star"></i></button>
+                <button class="star-btn" onclick="rateQuestion(3)"><i class="fa-solid fa-star"></i></button>
+                <button class="star-btn" onclick="rateQuestion(4)"><i class="fa-solid fa-star"></i></button>
+                <button class="star-btn" onclick="rateQuestion(5)"><i class="fa-solid fa-star"></i></button>
+              </div>
+            </div>
+
+            <!-- WhatsApp structured sharing panel -->
+            <div class="share-dropdown-wrap">
+              <button class="ctrl-btn" onclick="toggleShareMenu(event)" style="font-size:11px; padding:6px 12px;"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> Share WhatsApp</button>
+              <div class="share-options-list" id="shareMenu">
+                <button class="share-option-item" onclick="shareMCQ(1)"><i class="fa-solid fa-circle-question"></i> Question only</button>
+                <button class="share-option-item" onclick="shareMCQ(2)"><i class="fa-solid fa-square-check"></i> Question &amp; Answer</button>
+                <button class="share-option-item" onclick="shareMCQ(3)"><i class="fa-solid fa-list-ul"></i> Question &amp; Options</button>
+                <button class="share-option-item" onclick="shareMCQ(4)"><i class="fa-solid fa-comments"></i> Q, Options &amp; My Notes</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:4px;"><i class="fa-regular fa-comment-dots"></i> Add personal notes (saves automatically to cache):</label>
+            <textarea class="notes-textarea" id="notesTextarea" placeholder="Write review summary, memory links, or notes..." oninput="saveCurrentNote()"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PROGRESS AND PLAY NAVIGATION -->
+      <div class="quiz-nav">
+        <button class="nav-btn" id="prevBtn" onclick="prevQuestion()"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+        <div class="nav-progress" id="navProgress">Question 1 of 279</div>
+        <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next <i class="fa-solid fa-chevron-right"></i></button>
+        <button class="nav-btn end-btn" onclick="endQuiz()"><i class="fa-solid fa-flag-checkered"></i> End Block</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MASTER SESSION COMPLETED RESULT -->
+  <div id="resultsScreen" style="display: none; padding: 40px 20px; max-width: 700px; margin: 0 auto; text-align: center;">
+    <div class="results-title" id="resultsTitle" style="font-family: 'Bebas Neue', sans-serif; font-size: 50px; margin-bottom: 10px;">Evaluation Complete!</div>
+    <div class="results-score" id="resultsScore" style="font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--gold); margin-bottom: 20px;">0/279</div>
+    <div style="color:var(--muted); font-size:14px; margin-bottom: 20px;" id="resultsMsg"></div>
+    <div class="results-stats">
+      <div class="r-stat correct"><div class="num" id="resCorrect">0</div><div class="lbl">Correct Hits</div></div>
+      <div class="r-stat wrong"><div class="num" id="resWrong">0</div><div class="lbl">Errors</div></div>
+      <div class="r-stat total"><div class="num" id="resAcc">0%</div><div class="lbl">Total Accuracy</div></div>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px">
+      <button class="nav-btn" onclick="retestWrong()"><i class="fa-solid fa-rotate-right"></i> Retest Incorrect Answers Only</button>
+      <button class="nav-btn" onclick="resetQuiz()"><i class="fa-solid fa-redo"></i> Restart All 279 MCQs</button>
+      <button class="nav-btn end-btn" onclick="toggleTutorial()"><i class="fa-solid fa-graduation-cap"></i> View Tutorial Guides</button>
+    </div>
+  </div>
+
+  <!-- Master Footer Block -->
+  <footer>
+    © AMER ALSHRIF 2026 · AMER-OB-CRUSHER · ALL RIGHTS RESERVED · MADE WITH <span class="heart"><i class="fa-solid fa-heart"></i></span>
+  </footer>
+
+</div>
+
+<!-- CELEBRATION SHIELD -->
+<div id="celebration">
+  <div class="celebration-msg" id="celebrationMsg">EXCELLENT!</div>
+</div>
+
+<!-- FLOATING AUDIO ENGINE VISUAL -->
+<div class="audio-viz" id="audioViz"></div>
+
+<!-- TOAST WRAPPER -->
+<div id="toast"></div>
+
+<!-- ============ MASTER QUESTION DATABASE ============ -->
+<script>
+const QUESTIONS = [
+  // PART 1: ORIGINAL 110 MCQs
+  {id:1,cat:"Part 1",topic:"Classification of Heart Disease",q:"Which type of heart disease is now the most common form in pregnant women?",opts:["Acquired heart disease","Congenital heart disease","Rheumatic heart disease","Ischemic heart disease"],ans:1,rat:"Congenital Heart Disease (CHD): Present at birth; now the most common form as more women with CHD reaching reproductive age.",take:"Congenital heart disease is now the most common heart disease in pregnancy due to improved surgical survival rates."},
+  {id:2,cat:"Part 1",topic:"Rheumatic Heart Disease",q:"What is the underlying cause of rheumatic heart disease?",opts:["Viral infection","Staphylococcal infection","Streptococcal pharyngitis","Autoimmune disorder"],ans:2,rat:"as a complication of streptococcal pharyngitis ('strep throat.')",take:"Rheumatic heart disease initiates from an untreated group A streptococcal throat infection."},
+  {id:3,cat:"Part 1",topic:"Rheumatic Heart Disease",q:"Which heart valve is most commonly affected by rheumatic heart disease?",opts:["Aortic valve","Pulmonary valve","Mitral valve","Tricuspid valve"],ans:2,rat:"Mitral Valve Stenosis: Most common site (blood flow from the left atrium to the left ventricle)",take:"Mitral valve stenosis is the hallmark lesion of rheumatic heart disease in clinical practice."},
+  {id:4,cat:"Part 1",topic:"Signs of Heart Failure",q:"Which of the following is a sign of heart failure in pregnancy?",opts:["Bradycardia","Persistent crackles at lung bases","Hypertension only","Increased urine output"],ans:1,rat:"Persistent crackles at the lung bases, dyspnea on exertion, nocturnal cough, hemoptysis, progressive edema, and tachycardia, weakness, chest pain, and palpitations.",take:"Bilateral basal lung crackles that do not clear with coughing strongly suggest cardiac decompensation."},
+  {id:5,cat:"Part 1",topic:"NYHA Classification",q:"NYHA Class I heart disease means the patient is:",opts:["Markedly limited","Unable to perform any activity","Uncompromised with no limitation","Slightly compromised"],ans:2,rat:"Class I—Uncompromised. No limitation of physical activity. Asymptomatic with ordinary activity.",take:"Class I is defined by no symptomatic limitations during normal baseline physical tasks."},
+  {id:6,cat:"Part 1",topic:"NYHA Classification",q:"A patient comfortable at rest but ordinary activity causes fatigue and dyspnea is NYHA Class:",opts:["I","II","III","IV"],ans:1,rat:"Class II—Slightly compromised, requiring slight limitation of physical activity. Comfortable at rest, but ordinary physical activity causes fatigue, dyspnea, palpitations, or anginal pain.",take:"Class II features normal comfort at rest but symptomatic mild limitations during normal physical efforts."},
+  {id:7,cat:"Part 1",topic:"NYHA Classification",q:"NYHA Class III is characterized by:",opts:["No limitation","Slight limitation","Marked limitation of physical activity","Symptoms at rest only"],ans:2,rat:"Class III—Marked limitation of physical activity. Comfortable at rest, but less than ordinary activity causes excessive fatigue, palpitation, dyspnea, or anginal pain. Markedly compromised.",take:"Class III causes comfort at rest but substantial limitations on any minor physical exertion."},
+  {id:8,cat:"Part 1",topic:"NYHA Classification",q:"A patient with symptoms of cardiac insufficiency even at rest is NYHA Class:",opts:["I","II","III","IV"],ans:3,rat:"Class IV—Inability to perform any physical activity without discomfort. Symptoms of cardiac insufficiency even at rest.",take:"Class IV indicates standard decompensation symptoms even when entirely sedentary."},
+  {id:9,cat:"Part 1",topic:"NYHA Limitations",q:"What is the major limitation of the NYHA classification system in pregnancy?",opts:["It is too complex to use","It cannot predict the risk of adverse outcomes during pregnancy","It requires laboratory tests","It is only for non-pregnant women"],ans:1,rat:"The NYHA system cannot predict the risk of adverse outcomes during pregnancy.",take:"Clinical risk models must supplement the NYHA tool to evaluate complete perinatal risks."},
+  {id:10,cat:"Part 1",topic:"Drug Therapy - Anticoagulants",q:"Why is heparin preferred over warfarin in pregnancy?",opts:["It is cheaper","It does not cross the placenta","It is more effective","It requires no monitoring"],ans:1,rat:"Does not cross the placenta; effective alternative for warfarin",take:"Heparin's high molecular weight prevents transplacental transport, protecting the embryo."},
+  {id:11,cat:"Part 1",topic:"Drug Therapy - Anticoagulants",q:"When should heparin be resumed after vaginal birth?",opts:["Immediately","6 hours","12 hours","24 hours"],ans:1,rat:"Withheld during labor; resumed 6 hours after vaginal birth and 6-12 hours after cesarean",take:"Always wait a safe window of 6 hours post-vaginal delivery before restarting heparin."},
+  {id:12,cat:"Part 1",topic:"Circulatory Overload",q:"Which is a sign of circulatory overload/cardiac decompensation?",opts:["Slow pulse","Bounding pulse","Hypotension","Dry lungs"],ans:1,rat:"Monitor for bounding pulse, distended neck and peripheral veins, and moist crackles in the lung",take:"A hyperdynamic bounding pulse combined with neck vein distension warns of fluid overload."},
+  {id:13,cat:"Part 1",topic:"Maternal Risks",q:"Which is a maternal risk factor associated with iron-deficiency anemia?",opts:["Postterm delivery","Preterm delivery","Gestational diabetes","Hypertension"],ans:1,rat:"Maternal: Preterm delivery, perinatal mortality, postpartum depression, increased risk of hemorrhage, and infection.",take:"Maternal anemia increases systemic susceptibility to early delivery, infections, and bleeding."},
+  {id:14,cat:"Part 1",topic:"Goals of Treatment",q:"Which is NOT a goal of treatment for iron-deficiency anemia?",opts:["Eliminate symptoms","Correct the iron deficiency","Replenish iron stores","Increase fetal weight"],ans:3,rat:"Goals of Treatment: Eliminate symptoms. Correct the iron deficiency. Replenish iron stores",take:"Standard anemia care directly addresses maternal iron restoration rather than pure fetal weight regulation."},
+  {id:15,cat:"Part 1",topic:"Hemoglobin Monitoring",q:"Hemoglobin should be estimated at all of the following times EXCEPT:",opts:["First antenatal visit","30th week","36th week","20th week"],ans:3,rat:"Hemoglobin level should be estimated at the first antenatal visit, at the 30th week and finally at the 36th week",take:"Routine baseline hemoglobin checkpoints occur early, around 30 weeks, and close to term (36 weeks)."},
+  {id:16,cat:"Part 1",topic:"Iron Supplementation",q:"What is the recommended starting low dose of iron supplementation?",opts:["10 mg/day","20 mg/day","30 mg/day","60 mg/day"],ans:2,rat:"Start with a low dose of 30 mg/day.",take:"A starting dose of 30 mg elemental iron minimizes gastric upset while supporting early red cell mass."},
+  {id:17,cat:"Part 1",topic:"Iron Absorption",q:"What should be taken with iron to promote absorption?",opts:["Milk","Tea","Vitamin C (orange juice)","Coffee"],ans:2,rat:"Encourage intake with vitamin C-containing fluids (e.g., orange juice) to promote absorption.",take:"Acidic environments created by Vitamin C heavily facilitate intestinal iron absorption."},
+  {id:18,cat:"Part 1",topic:"Iron Absorption",q:"What should be avoided when taking iron supplements?",opts:["Orange juice","Milk","Water","Vitamin C"],ans:1,rat:"Milk can inhibit iron absorption; avoid taking iron supplements with milk.",take:"Calcium present in dairy products binds to iron and prevents its normal absorption."},
+  {id:19,cat:"Part 1",topic:"Iron Absorption",q:"Tea should be avoided within how long of taking iron tablets?",opts:["30 minutes","1 hour","2 hours","3 hours"],ans:1,rat:"Tea should be avoided within 1 hour of taking iron tablets.",take:"Tannins in tea severely bind iron, so space consumption by at least 1-2 hours."},
+  {id:20,cat:"Part 1",topic:"Parenteral Therapy",q:"Which is an indication for parenteral iron therapy?",opts:["Mild anemia in first trimester","Contraindications of oral therapy","Patient prefers injections","Routine supplementation"],ans:1,rat:"Indications of parenteral therapy: Contraindications of oral therapy. The patient is not cooperative to take oral iron. Cases are seen for the first time during the last 8–10 weeks with severe anemia.",take:"Severe late-gestation anemia or profound oral intolerance are the classic indications for IV iron."},
+  {id:21,cat:"Part 1",topic:"Parenteral Therapy",q:"What is the expected rise in hemoglobin after parenteral iron therapy?",opts:["0.1-0.3 g/100 ml/week","0.7 to 1 g/100 ml/week","2-3 g/100 ml/week","5 g/100 ml/week"],ans:1,rat:"The expected rise in hemoglobin concentration after parenteral therapy is 0.7 to 1 g/100 ml/week.",take:"IV iron boosts hemoglobin by approximately 0.7 to 1.0 g/dL each week in compliant patients."},
+  {id:22,cat:"Part 1",topic:"Blood Transfusion",q:"Blood transfusion is indicated in pregnancy when hemoglobin is:",opts:["Less than 10 g/dl","Less than 9 g/dl","Less than 7 g/dl","Less than 5 g/dl"],ans:2,rat:"Patient with severe anemia (Less than 7g/dl) seen in later months of pregnancy (beyond 36 weeks)",take:"A hemoglobin below 7 g/dL, especially near term, warrants a blood transfusion to prevent intrapartum hypoxia."},
+  {id:23,cat:"Part 1",topic:"Overview",q:"How many stages of labour are there?",opts:["Two","Three","Four","Five"],ans:1,rat:"Labour: Three stages (1st, 2nd, and 3rd)",take:"Labor is clinically divided into 3 major active stages."},
+  {id:24,cat:"Part 1",topic:"First Stage",q:"The first stage of labour is recognized by onset of:",opts:["Regular uterine contraction, effacement, and at least 4 cm dilation","Pushing urge","Delivery of baby","Placental separation"],ans:0,rat:"The first stage of labor is usually recognized by the onset of regular uterine contraction, an accompanying effacement, and at least 4 cm of dilatation of the cervix, and finally culminating in full dilatation of the cervix.",take:"Onset of true regular contractions with cervical changes (effacement/dilation) defines the first stage."},
+  {id:25,cat:"Part 1",topic:"Phases of Labour",q:"Which is NOT a phase of the first stage of labour?",opts:["Latent phase","Active phase","Transitional phase","Expulsive phase"],ans:3,rat:"Phases of Labor: Latent Phase, Active phase, Transitional Phase",take:"The expulsive phase belongs to the second stage of labor, not the first."},
+  {id:26,cat:"Part 1",topic:"Latent Phase",q:"The latent phase for primigravida lasts approximately:",opts:["1-2 hours","3-5 hours","6-8 hours","10-12 hours"],ans:2,rat:"latent phase: (6-8 hours for primi) (cervical dilatation The cervical canal shortens from 3 cm long to <0.5 cm in length during this time.",take:"The latent phase average duration is about 6-8 hours in primigravidas."},
+  {id:27,cat:"Part 1",topic:"Active Phase",q:"The active phase begins when the cervix is at least:",opts:["2 cm dilated","4 cm dilated","6 cm dilated","8 cm dilated"],ans:1,rat:"This begins when the cervix is at least 4 cm dilated and, in the presence of rhythmic contractions, progressively dilates to 10 cm or full dilatation.",take:"4 cm is the classic clinical threshold marking transition into active labor."},
+  {id:28,cat:"Part 1",topic:"Transitional Phase",q:"The transitional phase begins at approximately:",opts:["4 cm dilation","6 cm dilation","8 cm dilation","10 cm dilation"],ans:2,rat:"The transitional phase of the first stage of labour is from when the cervix is around 8 cm dilated until it is fully dilated or until expulsive contractions associated with the second stage of labour are felt by the woman.",take:"The transitional phase is the intense 8-10 cm period right before active pushing starts."},
+  {id:29,cat:"Part 1",topic:"Active Phase Duration",q:"The active phase is expected to be completed within:",opts:["1-3 hours","3-6 hours","6-12 hours","12-24 hours"],ans:2,rat:"it is common to expect the active phase to be completed within 6–12 hours",take:"A normal active phase completes progressively over a 6 to 12 hour window."},
+  {id:30,cat:"Part 1",topic:"Cervical Dilatation Rate",q:"Normal cervical dilatation rate in active labor is:",opts:["0.1-0.3 cm per hour","0.5-1 cm per hour","2-3 cm per hour","4-5 cm per hour"],ans:1,rat:"Cervical dilatation 0.5-1cm per hour, probably",take:"Normal progress expects at least 0.5 to 1 cm of dilatation per hour in active phases."},
+  {id:31,cat:"Part 1",topic:"Full Dilatation",q:"Full dilatation at term equates to approximately:",opts:["8 cm","9 cm","10 cm","12 cm"],ans:2,rat:"Dilatation is assessed in centimetres and full dilatation at term equates to about 10 cm. However, acknowledging that all women are different sizes and shapes means that full cervical dilatation may be between 9 and 11 cm in individual women.",take:"10 cm is the standard objective measurement representing full cervical dilatation."},
+  {id:32,cat:"Part 1",topic:"Effacement",q:"Effacement refers to:",opts:["Dilation of the cervix","Inclusion of the cervical canal into the lower uterine segment","Descent of the fetus","Rupture of membranes"],ans:1,rat:"Effacement refers to the inclusion (taking up) of the cervical canal into the lower uterine segment. It is believed that this process takes place from above downward, meaning that the muscle fibers.",take:"Effacement is the progressive thinning and shortening of the cervical canal."},
+  {id:33,cat:"Part 1",topic:"Fundal Dominance",q:"In fundal dominance, each uterine contraction:",opts:["Begins in the cervix","Commences in the fundus near one of the cornua","Is equal throughout the uterus","Begins in the lower segment"],ans:1,rat:"Each uterine contraction commences in the fundus near one of the cornua and spreads across and downwards. The contraction lasts longest in the fundus, where it is also most intense.",take:"Contractions naturally propagate from the fundus down toward the lower uterine segment."},
+  {id:34,cat:"Part 1",topic:"Uterine Contractions",q:"By the end of the first stage, contractions may occur at:",opts:["10-15 minute intervals","5-7 minute intervals","2-3 minute intervals","30 second intervals"],ans:2,rat:"By the end of the first stage, the contractions may occur at 2–3 minute intervals, last for 50–60 seconds and are very powerful.",take:"Adequate late active phase labor exhibits contractions every 2 to 3 minutes."},
+  {id:35,cat:"Part 1",topic:"Uterine Contractions",q:"Before labour becomes established, contractions may occur every:",opts:["2-3 minutes","5-7 minutes","10-12 minutes","15-20 minutes"],ans:3,rat:"Before labour becomes established, uterine contractions may occur every 15–20 minutes, lasting for about 30 seconds. (weak contractions so imperceptible to the woman).",take:"Early latent phase contractions are highly spaced, often 15-20 minutes apart."},
+  {id:36,cat:"Part 1",topic:"Cardinal Movements",q:"The first cardinal movement of labor is:",opts:["Flexion","Descent","Internal rotation","Extension"],ans:1,rat:"1. Descent → نزول الرأس.",take:"Descent is the vital primary movement allowing subsequent adaptations."},
+  {id:37,cat:"Part 1",topic:"Cardinal Movements",q:"The second cardinal movement is:",opts:["Descent","Flexion","Extension","Restitution"],ans:1,rat:"2. Flexion → انثناء الرأس (الذقن على الصدر).",take:"Flexion occurs as the head meets pelvic floor resistance, presenting smaller diameters."},
+  {id:38,cat:"Part 1",topic:"Cardinal Movements",q:"The third cardinal movement is:",opts:["Internal rotation","External rotation","Extension","Expulsion"],ans:0,rat:"3. Internal Rotation → دوران الرأس للاتجاه المناسب.",take:"Internal rotation aligns the sagittal suture with the AP diameter of the pelvis."},
+  {id:39,cat:"Part 1",topic:"Cardinal Movements",q:"The fourth cardinal movement is:",opts:["Flexion","Extension","Restitution","Descent"],ans:1,rat:"4. Extension → خروج الرأس.",take:"Extension allows the head to pivot beneath the subpubic arch and exit."},
+  {id:40,cat:"Part 1",topic:"Cardinal Movements",q:"The fifth cardinal movement is:",opts:["Restitution","Internal rotation of shoulders","Lateral flexion","Descent"],ans:0,rat:"5. Restitution → رجوع الرأس لوضعه الطبيعي.",take:"Restitution is the untwisting of the neck after the head delivers."},
+  {id:41,cat:"Part 1",topic:"Cardinal Movements",q:"The sixth cardinal movement is:",opts:["Extension","Internal rotation of shoulders","Lateral flexion","Restitution"],ans:1,rat:"6. Internal Rotation of Shoulders → دوران الكتفين.",take:"Internal shoulder rotation aligns the biacromial diameter to the pelvic outlet."},
+  {id:42,cat:"Part 1",topic:"Cardinal Movements",q:"The seventh cardinal movement is:",opts:["Descent","Flexion","Lateral flexion (Expulsion)","Restitution"],ans:2,rat:"7. Lateral Flexion (Expulsion) → خروج الكتفين ثم باقي الجسم.",take:"Expulsion of the rest of the body is achieved via natural lateral flexion."},
+  {id:43,cat:"Part 1",topic:"First Stage Assessment",q:"Fetal heart rate should be auscultated for a minimum of:",opts:["30 seconds","1 minute","2 minutes","5 minutes"],ans:1,rat:"Fetal heart rate should be auscultated for a minimum of 1 minute immediately after a contraction using a Pinard or doppler.",take:"Always auscultate the fetal heart for 60 seconds post-contraction to catch decelerations."},
+  {id:44,cat:"Part 1",topic:"Vaginal Examination",q:"Vaginal examination during labor should be performed every:",opts:["1 hour","2 hours","4 hours","6 hours"],ans:2,rat:"Vaginal examination (VE) may also be undertaken to help confirm the onset of labour and determine the extent of cervical effacement and dilatation (every 4 hours)",take:"Routine vaginal exams in uncomplicated labors are spaced 4 hours apart to limit infection."},
+  {id:45,cat:"Part 1",topic:"Bladder Care",q:"During labour, the bladder should be emptied at least:",opts:["Hourly","2-hourly","4-hourly","8-hourly"],ans:2,rat:"the bladder should be emptied at least 4-hourly or more frequently if it is palpable abdominally.",take:"Emptying the bladder every 4 hours prevents progress obstruction or bladder trauma."},
+  {id:46,cat:"Part 1",topic:"Second Stage - Cord Clamping",q:"Cord clamping should be delayed to:",opts:["30 seconds","1-3 minutes","5 minutes","10 minutes"],ans:1,rat:"Cord clamping delay to 1-3 minutes and Baby placed on mother chest or abdomen for skin-to-skin contact",take:"Delaying clamping by 1-3 minutes transfers key blood volume to the neonate."},
+  {id:47,cat:"Part 1",topic:"Second Stage Monitoring",q:"Maternal pulse rate during second stage is recorded every:",opts:["5 minutes","10 minutes","15 minutes","30 minutes"],ans:2,rat:"Maternal pulse rate is usually taken and recorded every 15 min, and blood pressure every hour",take:"Record maternal pulse every 15 minutes to closely track pushing stress."},
+  {id:48,cat:"Part 1",topic:"Episiotomy",q:"An episiotomy is defined as:",opts:["Cutting the cervix","Incision in the perineum to extend the vulval orifice","Tearing the vagina","Cutting the umbilical cord"],ans:1,rat:"surgical operation where an incision is made in the perineum to extend the vulval orifice.",take:"An episiotomy is a planned perineal incision to enlarge the soft tissue birth canal."},
+  {id:49,cat:"Part 1",topic:"Active Management Third Stage",q:"Active management of the third stage includes:",opts:["Routine use of oxytocin","Delayed cord clamping only","No uterotonics","Passive delivery of placenta"],ans:0,rat:"includes the routine use of oxytocin prophylactic administration of a uterotonic agent (oxytocin) aimed at reducing the risk of postpartum haemorrhage.",take:"Active third stage management routinely includes prophylactic oxytocin."},
+  {id:50,cat:"Part 1",topic:"Controlled Cord Traction",q:"Controlled cord traction should NEVER be used:",opts:["Before birth of baby","In the absence of a well-contracted uterus following uterotonic administration","After placenta is out","In primigravida"],ans:1,rat:"Controlled cord traction should NEVER be used in the absence of a well-contracted uterus following uterotonic administration",take:"Traction on an uncontracted uterus can cause catastrophic uterine inversion."},
+  {id:51,cat:"Part 1",topic:"Placental Separation Signs",q:"A sign of placental separation is:",opts:["Soft, boggy uterus","A large gush of blood","Cord shortening","Decreased cramping"],ans:1,rat:"A large 'gush' of blood may follow, indicating partial or complete separation of the placenta. It usually ceases after 10–20",take:"A sudden gush of blood and cord lengthening signify placental detaching."},
+  {id:52,cat:"Part 1",topic:"External Uterine Massage",q:"External uterine massage following placental expulsion is recommended by:",opts:["WHO only","ICM and FIGO","ACOG only","NICE only"],ans:1,rat:"Uterine massage following the expulsion of the placenta is a component of active management of the third stage of labor that is recommended by both ICM and FIGO.",take:"Universal guidelines suggest immediate postpartum uterine massage to maintain tone."},
+  {id:53,cat:"Part 1",topic:"Immediate Postpartum Care",q:"Vital signs in the first postpartum hour should be checked every:",opts:["5 minutes","10 minutes","15 minutes","30 minutes"],ans:2,rat:"Check vital signs every 15 min during the 1st hour then 30 min during 2nd hour",take:"Check vitals every 15 minutes in the critical first hour post-delivery."},
+  {id:54,cat:"Part 1",topic:"Third Stage Duration",q:"The third stage usually lasts between:",opts:["1-5 minutes","5-15 minutes","15-30 minutes","30-60 minutes"],ans:1,rat:"The third stage usually lasts between 5 and 15 minutes, but any period up to 1 hour may be considered normal",take:"Normal third-stage completion occurs in 5 to 15 minutes with active management."},
+  {id:55,cat:"Part 1",topic:"Fetal Monitoring",q:"During the first stage, auscultation should take place every:",opts:["5 minutes","10 minutes","15 minutes","30 minutes"],ans:2,rat:"During the first stage of labour, auscultation should take place every 15 min for a minimum of 60 sec immediately following a contraction",take:"In low-risk active first-stage labor, auscultate fetal heart rate every 15 minutes."},
+
+  {id:56,cat:"Part 1",topic:"Hypertonic Dysfunction",q:"Hypertonic uterine dysfunction occurs when:",opts:["The uterus never fully relaxes between contractions","Contractions are too weak","There is no contraction","The cervix dilates too fast"],ans:0,rat:"Occurs when the uterus never fully relaxes between contractions. Then, contractions are irregular and poorly coordinated because more than one uterine pacemaker is sending signals for contraction",take:"Elevated resting tone and uncoordinated, non-productive contractions define hypertonia."},
+  {id:57,cat:"Part 1",topic:"Hypertonic Dysfunction",q:"Hypertonic uterine dysfunction occurs in:",opts:["Active phase","Second stage","Latent phase (cervical dilation <4 cm)","Third stage"],ans:2,rat:"Occurring in the latent phase of the first stage of labor (cervical dilation of <4 cm); uncoordinated.",take:"Hypertonic patterns typically present early during the painful latent phase."},
+  {id:58,cat:"Part 1",topic:"Hypotonic Dysfunction",q:"Hypotonic uterine dysfunction occurs during:",opts:["Latent phase","Active labor (dilation more than 4 cm)","Second stage","Third stage"],ans:1,rat:"Occurs during active labor (dilation more than 4 cm) when contractions become poor in quality and lack sufficient intensity to dilate and efface the cervix.",take:"Hypotonia is an active phase complication characterized by weak, spaced-out contractions."},
+  {id:59,cat:"Part 1",topic:"Hypotonic Dysfunction",q:"The major risk with hypotonic uterine dysfunction is:",opts:["Precipitous labor","Hemorrhage after giving birth","Fetal distress","Infection"],ans:1,rat:"The major risk with this complication is hemorrhage after giving birth because the uterus cannot contract effectively to compress blood vessels",take:"Inability to contract properly postpartum places the hypotonic patient at high risk for hemorrhage."},
+  {id:60,cat:"Part 1",topic:"Precipitous Labor",q:"Precipitous labor is defined as labor completed within:",opts:["Less than 1 hour","Less than 2 hours","Less than 3 hours","Less than 6 hours"],ans:2,rat:"Is one that is completed in less than 3 hours.",take:"Rapid progression from onset to birth in under 3 hours is precipitous labor."},
+  {id:61,cat:"Part 1",topic:"Precipitous Labor",q:"A potential fetal complication of precipitous labor is:",opts:["Macrosomia","Intracranial hemorrhage","Post-term pregnancy","Shoulder dystocia"],ans:1,rat:"Potential fetal complications may include head trauma, such as intracranial hemorrhage or nerve damage, and hypoxia due to the rapid progression of labor.",take:"Sudden pressure changes during rapid birth can cause fetal intracranial hemorrhage."},
+  {id:62,cat:"Part 1",topic:"Persistent Occiput Posterior",q:"The most common malposition is:",opts:["Face presentation","Brow presentation","Persistent occiput posterior","Breech presentation"],ans:2,rat:"Is the most common malposition.",take:"Persistent OP position is the most frequently encountered labor malposition."},
+  {id:63,cat:"Part 1",topic:"Persistent Occiput Posterior",q:"In persistent occiput posterior, the fetus is born:",opts:["Facing downward","Facing upward","Sideways","Breech first"],ans:1,rat:"the occiput rotating posteriorly (fetus born facing upward instead of the normal downward position)",take:"OP position leads to delivery of the baby 'sunny-side up' facing the symphysis pubis."},
+  {id:64,cat:"Part 1",topic:"Face & Brow Presentations",q:"Face and brow presentations are diagnosed by:",opts:["Ultrasound only","Palpation of facial features during vaginal examination","External palpation only","CT scan"],ans:1,rat:"Only once labor is well established via vaginal examination; palpation of facial features as the presenting part rather than the fetal head",take:"Vaginal palpatory landmarks (orbital ridges, chin, nose) diagnose face/brow presentation."},
+  {id:65,cat:"Part 1",topic:"Shoulder Dystocia",q:"McRobert's maneuver involves:",opts:["Fundal pressure","Hyperflexion and abduction of maternal hips onto the abdomen","Symphysiotomy","Cesarean section"],ans:1,rat:"Hyperflexion and abduction of maternal hips onto the abdomen to increases pelvic diameter",take:"Sharply flexing the maternal thighs against the abdomen flattens the sacral promontory."},
+
+  {id:66,cat:"Part 1",topic:"External Cephalic Version",q:"External cephalic version is attempted:",opts:["Before 28 weeks","After 36 weeks but before start of labor","During labor","After delivery"],ans:1,rat:"attempted after the 36th week of gestation but before the start of labor",take:"ECV is timed near 36-37 weeks before labor onset to prevent spontaneous reversion."},
+  {id:67,cat:"Part 1",topic:"Tocolytic Drugs",q:"Tocolytic drugs are used to:",opts:["Induce labor","Relax the uterus","Stop bleeding","Reduce pain"],ans:1,rat:"Tocolytic drugs to relax the uterus, as well as other methods, to facilitate external cephalic version at term.",take:"Uterine relaxation from tocolytics is crucial to facilitate a successful external turn."},
+  {id:68,cat:"Part 1",topic:"External Cephalic Version",q:"External cephalic version is:",opts:["Manual turning of breech fetus to cephalic presentation","A type of forceps delivery","A cesarean technique","A pain relief method"],ans:0,rat:"Use of external cephalic version to reduce the chance of breech presentation at birth",take:"ECV is the transabdominal manipulation of a breech/transverse fetus into vertex."},
+  {id:69,cat:"Part 1",topic:"Shoulder Dystocia",q:"McRobert's maneuver is used to relieve:",opts:["Breech presentation","Shoulder dystocia","Face presentation","Prolapsed cord"],ans:1,rat:"Maneuvers to relieve shoulder dystocia",take:"Hyperflexing the maternal hips is the first-line action in shoulder dystocia."},
+  {id:70,cat:"Part 1",topic:"McRobert's Maneuver",q:"The purpose of McRobert's maneuver is to:",opts:["Increase pelvic diameter","Decrease pelvic diameter","Rotate the fetus","Stop contractions"],ans:0,rat:"Hyperflexion and abduction of maternal hips onto the abdomen to increases pelvic diameter",take:"It realigns the pelvis and outlet axes, expanding entry room."},
+
+  {id:71,cat:"Part 1",topic:"Puerperium",q:"The puerperium period lasts approximately:",opts:["2 weeks","4 weeks","6 weeks","12 weeks"],ans:2,rat:"Begins after the delivery of the placenta and lasts approximately 6 weeks",take:"Anatomical and physiological involution spans the standard 6 postpartum weeks."},
+  {id:72,cat:"Part 1",topic:"Lochia Rubra",q:"Lochia rubra occurs for the:",opts:["First 1-2 days","First 3-4 days","First 7 days","First 14 days"],ans:1,rat:"Lochia rubra: is a deep-red mixture of mucus, tissue debris, and blood that occurs for the first 3 to 4 days after birth.",take:"Lochia rubra is the bloody primary vaginal discharge lasting 3 to 4 days."},
+  {id:73,cat:"Part 1",topic:"Lochia Serosa",q:"Lochia serosa is expelled:",opts:["1-3 days postpartum","3-10 days postpartum","10-21 days postpartum","3-6 weeks postpartum"],ans:1,rat:"Lochia serosa: is the second stage. It is pinkish brown and is expelled 3 to 10 days postpartum.",take:"Serosa is the pinkish-brown serum-rich secondary lochia seen from days 3 to 10."},
+  {id:74,cat:"Part 1",topic:"Lochia Alba",q:"Lochia alba occurs from:",opts:["Days 1-3","Days 3-10","Days 10 to 14 (can last 3-6 weeks)","6-8 weeks"],ans:2,rat:"Lochia alba: is the final stage... It occurs from days 10 to 14 but can last 3 to 6 weeks postpartum in some women and still be considered normal",take:"Lochia alba is the creamy white late stage occurring from day 10 up to 3-6 weeks."},
+  {id:75,cat:"Part 1",topic:"Cervix",q:"The cervical os returns to normal by:",opts:["1 week","2 weeks","4 weeks","6 weeks"],ans:1,rat:"The cervical os gradually closes and returns to normal by 2 weeks",take:"Significant closure of the cervix occurs progressively, completing around 2 weeks."},
+  {id:76,cat:"Part 1",topic:"Cervix",q:"After childbirth, the external cervical os appears as:",opts:["A circle","A jagged slit-like opening ('fish mouth')","A triangle","A star shape"],ans:1,rat:"The external cervical os is no longer shaped like a circle, but instead appears as a jagged slit-like opening, often described as a 'fish mouth'",take:"The circular nulliparous os permanently becomes a transverse slit after childbirth."},
+  {id:77,cat:"Part 1",topic:"Perineum",q:"Complete healing of an episiotomy may take as long as:",opts:["1-2 weeks","2-4 weeks","4-6 months","1 year"],ans:2,rat:"complete healing may take as long as 4 to 6 months in the absence of complications at the site, such as hematoma or infection.",take:"While early epithelialization takes 2 weeks, deep tissue healing takes 4-6 months."},
+  {id:78,cat:"Part 1",topic:"Coagulation",q:"The postpartum woman is at risk for thromboembolism due to:",opts:["Hypercoagulable state, vessel damage, and immobility","Anemia","Hypertension","Infection"],ans:0,rat:"This hypercoagulable state, combined with vessel damage during birth and immobility, places the woman at risk for thromboembolism (blood clots) in the lower extremities and the lung",take:"Virwow's triad (hypercoagulability, stasis, endothelial injury) is fully active postpartum."},
+  {id:79,cat:"Part 1",topic:"Early Ambulation",q:"Early ambulation is encouraged to:",opts:["Prevent bleeding","Improve circulation and prevent thrombi","Reduce pain","Increase milk supply"],ans:1,rat:"To improve circulation and prevent the development of thrombi: Encourage women to ambulate shortly after delivery.",take:"Early mobilization is the most cost-effective prophylaxis against postpartum DVT."},
+  {id:80,cat:"Part 1",topic:"Urinary Retention",q:"Urinary retention is a major cause of:",opts:["Uterine atony","Hypertension","Infection","Hemorrhage only"],ans:0,rat:"Urinary retention is a major cause of uterine atony, which allows excessive bleeding.",take:"A distended bladder physically displaces the uterus, preventing retraction and causing atony."},
+  {id:81,cat:"Part 1",topic:"Endocrine",q:"Estrogen reaches its lowest level:",opts:["Immediately after birth","One week after birth","Two weeks after birth","Six weeks after birth"],ans:1,rat:"Estrogen is at its lowest level a week after birth.",take:"With placental loss, estrogen and progesterone hit nadir levels by post-delivery day 7."},
+  {id:82,cat:"Part 1",topic:"Prolactin",q:"Prolactin triggers:",opts:["Uterine contraction","Milk synthesis and secretion","Ovulation","Menstruation"],ans:1,rat:"Prolactin from the anterior pituitary gland, secreted in increasing levels throughout pregnancy, triggers the synthesis and secretion of milk after the woman gives birth.",take:"Prolactin drives the alveolar cells to synthesize and secrete milk postpartum."},
+  {id:83,cat:"Part 1",topic:"Colostrum",q:"Colostrum contains:",opts:["Protein and fat","Protein and carbohydrate but no milk fat","Fat only","Carbohydrate only"],ans:1,rat:"colostrum, which contains protein and carbohydrate but no milk fat",take:"Colostrum is rich in immunoglobulins, proteins, and carbs, but lacks standard milk fat."},
+  {id:84,cat:"Part 1",topic:"Engorgement",q:"Engorgement is:",opts:["Infection of the breast","Swelling of breast tissue due to increase in blood and lymph supply","Blocked milk duct","Cracked nipple"],ans:1,rat:"Engorgement is the process of swelling of the breast tissue as a result of an increase in blood and lymph supply as a precursor to lactation.",take:"Congestion from increased vascular and lymphatic fluid, not just milk, causes engorgement."},
+  {id:85,cat:"Part 1",topic:"Uterine Involution",q:"The fundus descends daily by approximately:",opts:["0.5 cm","1 cm","2 cm","3 cm"],ans:1,rat:"fundus goes down daily 1 cm per day",take:"The normal uterine fundus decreases in height by roughly 1 fingerbreadth (1 cm) daily."},
+  {id:86,cat:"Part 1",topic:"Psychological - Taking-In",q:"The Taking-In phase is characterized by:",opts:["Dependent and independent behavior","Need for sleep, dependency, reliving birth events","Reestablishing relationships","Confidence in parenting"],ans:1,rat:"Taking-In Phase is the time immediately after birth when the client needs sleep, depends on others to meet her needs, and relives the events surrounding the birth process.",take:"Taking-In is a passive, dependent phase of integration directly following birth."},
+  {id:87,cat:"Part 1",topic:"Psychological - Taking-Hold",q:"The Taking-Hold phase typically starts:",opts:["Immediately after birth","Second to third day postpartum","Two weeks postpartum","Six weeks postpartum"],ans:1,rat:"This phase typically starts on the second to third day postpartum and may last several weeks.",take:"Taking-Hold marks the transition to active parenting, beginning by day 2 or 3."},
+  {id:88,cat:"Part 1",topic:"Psychological - Letting-Go",q:"In the Letting-Go phase, the woman:",opts:["Needs sleep","Depends on others","Reestablishes relationships and adapts to parenthood","Cannot care for newborn"],ans:2,rat:"The woman reestablishes relationships with other people. She adapts to parenthood through her new role as a mother.",take:"Letting-go is the final step of adapting her identity to encompass the new child."},
+
+  {id:89,cat:"Part 1",topic:"Apgar Scoring",q:"Apgar scoring is routinely done at:",opts:["1 and 5 minutes","2 and 10 minutes","5 and 10 minutes","1 and 10 minutes"],ans:0,rat:"is used worldwide to evaluate a newborn's physical condition at 1 minute and 5 minutes after birth.",take:"Initial status evaluation uses APGAR scores at 1 and 5 minutes postpartum."},
+  {id:90,cat:"Part 1",topic:"Apgar Scoring",q:"An additional Apgar assessment at 10 minutes is done if:",opts:["The baby is crying","The 5-minute score is less than 7","The baby is term","The mother requests it"],ans:1,rat:"An additional Apgar assessment is done at 10 minutes if the 5-minute score is less than 7 points.",take:"Scores below 7 at the 5-minute mark require extended 10-minute evaluations."},
+  {id:91,cat:"Part 1",topic:"Apgar Parameters",q:"In Apgar scoring, the two 'A's stand for:",opts:["Activity and Airway","Appearance (color) and Activity (muscle tone)","Apnea and Asphyxia","Acidosis and Alertness"],ans:1,rat:"A: appearance (color), P: pulse (heart rate), G: grimace (reflex irritability), A: activity (muscle tone), R: respiratory (respiratory effort)",take:"The first 'A' evaluates visual skin color, the second 'A' evaluates neuromuscular tone."},
+  {id:92,cat:"Part 1",topic:"PPH Definition",q:"PPH after vaginal birth is defined as blood loss greater than:",opts:["250 mL","500 mL","750 mL","1000 mL"],ans:1,rat:"PPH is defined as a blood loss greater than 500 mL after vaginal birth",take:"Vaginal delivery PPH is historically defined as bleeding exceeding 500 mL."},
+  {id:93,cat:"Part 1",topic:"PPH Definition",q:"PPH after cesarean birth is defined as blood loss more than:",opts:["500 mL","750 mL","1000 mL","1500 mL"],ans:2,rat:"or more than 1,000 mL after a cesarean birth.",take:"Cesarean delivery PPH is defined as bleeding exceeding 1000 mL."},
+  {id:94,cat:"Part 1",topic:"PPH Classification",q:"Primary (early) PPH occurs:",opts:["Within 24 hours of birth","24 hours to 12 weeks after birth","After 12 weeks","Before birth"],ans:0,rat:"Blood loss that occurs within 24 hours of birth is termed primary (immediate or early) postpartum haemorrhage",take:"Early/Primary hemorrhage occurs in the immediate 24-hour postpartum window."},
+  {id:95,cat:"Part 1",topic:"PPH Classification",q:"Delayed (late) PPH occurs:",opts:["Within 24 hours","24 hours to 12 weeks after birth","After 12 weeks","During pregnancy"],ans:1,rat:"Blood loss that occurs 24 hours to 12 weeks after birth is termed delayed (late) postpartum haemorrhage.",take:"Late/Secondary PPH occurs from 24 hours up to 12 weeks postpartum, often due to subinvolution."},
+  {id:96,cat:"Part 1",topic:"Uterine Atony",q:"The intervention for uterine atony is:",opts:["Massage and oxytocics","Antibiotics","Fluid restriction","Cesarean section"],ans:0,rat:"uterine atony — massage and oxytocics",take:"Bimanual massage and immediate uterotonics are the cornerstone therapies for atony."},
+  {id:97,cat:"Part 1",topic:"Lochia Assessment",q:"Saturating one pad in less than how long indicates complications?",opts:["30 minutes","1 hour","2 hours","4 hours"],ans:1,rat:"Saturating one pad in less than an hour, a constant trickle of lochia, or the presence of large blood clots is indicative of more serious complications",take:"Saturating a perineal pad in under 60 minutes represents severe bleeding."},
+
+  {id:98,cat:"Part 1",topic:"Postpartum Infection",q:"Postpartum infection is defined as fever of 38°C or higher:",opts:["Within the first 24 hours","After the first 24 hours, on at least 2 of the first 10 days","Anytime in 6 weeks","Only after discharge"],ans:1,rat:"Postpartum infection is defined as a fever of (38° C) or higher after the first 24 hours after childbirth, occurring on at least 2 of the first 10 days after birth, exclusive of the first 24 hours",take:"A temperature above 38°C on 2 or more of the first 10 days (excluding day 1) marks puerperal sepsis."},
+  {id:99,cat:"Part 1",topic:"VTE Prevention",q:"To prevent venous stasis, encourage:",opts:["Bed rest","Activity causing leg muscles to contract (leg exercises and walking)","Leg crossing","Prolonged sitting"],ans:1,rat:"Preventing venous stasis by encouraging activity that causes leg muscles to contract and promotes venous return (leg exercises and walking).",take:"Muscle pump contraction during walking is highly protective against thrombosis."},
+  {id:100,cat:"Part 1",topic:"Postpartum Blues",q:"What percentage of postpartum women experience the 'blues'?",opts:["20%","40%","60%","80%"],ans:3,rat:"Many postpartum women (approximately 80%) experience the 'blues'.",take:"The mild self-limiting 'baby blues' occur in up to 80% of new mothers."},
+  {id:101,cat:"Part 1",topic:"Postpartum Depression",q:"Unlike postpartum blues, PPD:",opts:["Goes away on its own","Feels worse over time, doesn't go away on its own","Is less severe","Lasts only a few days"],ans:1,rat:"Unlike the postpartum blues, women with postpartum depression feel worse over time, and changes in mood and behavior do not go away on their own.",take:"Depression requires intervention; it worsens dynamically over time without resolving naturally."},
+  {id:102,cat:"Part 1",topic:"Postpartum Psychosis",q:"Postpartum psychosis is associated with increased risk of:",opts:["Infection","Hemorrhage","Suicide and infanticide","Thrombosis"],ans:2,rat:"An emergency psychiatric condition can result in a significant increased risk for suicide and infanticide.",take:"Postpartum psychosis is a severe psychiatric emergency carrying extreme safety risks."},
+
+  {id:103,cat:"Part 1",topic:"Amenorrhea",q:"Amenorrhea is defined as:",opts:["Painful menstruation","Absence of menses","Heavy bleeding","Irregular cycles"],ans:1,rat:"Amenorrhea is the absence of menses or menstrual bleeding.",take:"Amenorrhea represents abnormal or absent menstruation outside physiological blocks."},
+  {id:104,cat:"Part 1",topic:"Primary Dysmenorrhea",q:"The principal cause of primary dysmenorrhea is:",opts:["Estrogen","Progesterone","Prostaglandins","Prolactin"],ans:2,rat:"The principal cause of primary dysmenorrhea is the presence of prostaglandins that are released from the endometrium at the beginning of menses.",take:"Prostaglandin-F2-alpha release during endometrial shedding is the main driver of dysmenorrhea pain."},
+  {id:105,cat:"Part 1",topic:"PCOS",q:"The three classic features of PCOS are:",opts:["Hirsutism, irregular cycles, obesity","Acne, obesity, infertility","Hirsutism, regular cycles, thinness","Amenorrhea, hypertension, obesity"],ans:0,rat:"The three classic features are hirsutism, irregular menstrual cycles and obesity.",take:"PCOS classically presents as hirsutism, oligo/amenorrhea, and obesity."},
+  {id:106,cat:"Part 1",topic:"PCOS Assessment",q:"A waist-to-hip ratio indicating abdominal obesity in PCOS is:",opts:["0.5 or more","0.65 or more","0.75 or more","0.85 or more"],ans:3,rat:"A waist-to-hip ratio of 0.85 or more indicates abdominal obesity and an increased risk for metabolic and cardiovascular conditions.",take:"A ratio above 0.85 represents central adiposity and severe insulin resistance risk."},
+  {id:107,cat:"Part 1",topic:"Endometriosis",q:"The classic symptoms of endometriosis are:",opts:["Amenorrhea and weight gain","Progressive dysmenorrhea and deep dyspareunia","Menorrhagia and pruritus","Hot flashes and night sweats"],ans:1,rat:"The classic symptoms of endometriosis include progressive dysmenorrhea and deep dyspareunia.",take:"Pain characteristically worsens over time (dysmenorrhea) and occurs deeply during intercourse."},
+  {id:108,cat:"Part 1",topic:"Leiomyomas",q:"Which is a symptom of uterine fibroids (leiomyomas)?",opts:["Amenorrhea","Urinary frequency","Hot flashes","Vaginal itching"],ans:1,rat:"Fibroids can cause urinary frequency, rectal pressure, and interference with sexual activity and dyspareunia.",take:"Mass effect from heavy fibroids commonly causes urinary frequency due to bladder compression."},
+  {id:109,cat:"Part 1",topic:"Bacterial Vaginosis",q:"The gold standard for diagnosis of bacterial vaginosis is:",opts:["Wet mount","Gram stain with Nugent scoring system","KOH test","pH test only"],ans:1,rat:"Gram stain with the use of the Nugent scoring system is the gold standard for diagnosis of BV.",take:"Nugent scoring of Gram stains is the research-grade gold standard for BV diagnosis."},
+  {id:110,cat:"Part 1",topic:"Vulvovaginal Candidiasis",q:"The treatment for vulvovaginal candidiasis is:",opts:["Metronidazole","Fluconazole (Diflucan)","Doxycycline","Penicillin"],ans:1,rat:"Treatment of VVC is oral medication fluconazole (Diflucan)",take:"A single dose of oral fluconazole is highly effective for uncomplicated yeast infections."},
+
+  // ==========================================
+  // PART 2: EXTRA OB MCQ BANK (Lecture 7-10+)
+  // ==========================================
+  {id:111,cat:"Part 2",topic:"Heart Disease & Anemia",q:"What is the most common site affected in rheumatic heart disease?",opts:["Aortic valve","Pulmonary valve","Mitral valve","Tricuspid valve"],ans:2,rat:"Mitral valve is the most common site affected in rheumatic heart disease (الصمام التاجي).",take:"The mitral valve is consistently the primary target in rheumatic cardiovascular injury."},
+  {id:112,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Rheumatic heart disease commonly develops as a complication of:",opts:["Tuberculosis","Pneumonia","Streptococcal pharyngitis","Influenza"],ans:2,rat:"Rheumatic heart disease commonly develops as a complication of Streptococcal pharyngitis (العقدي البلعوم التهاب).",take:"Untreated strep throat triggers cross-reactive antibodies that attack cardiac tissue."},
+  {id:113,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Which of the following is a sign of heart failure during pregnancy?",opts:["Bradycardia","Dyspnea on exertion","Polyuria","Hypotension"],ans:1,rat:"Dyspnea on exertion is a sign of heart failure during pregnancy (الجهد عند التنفس ضيق).",take:"Worsening exertional dyspnea in a cardiac patient is a warning sign of fluid backup."},
+  {id:114,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Heart disease in pregnancy is confirmed by:",opts:["CBC and ultrasound","Chest X-ray only","ECG and echocardiography","MRI only"],ans:2,rat:"Heart disease in pregnancy is confirmed by ECG and echocardiography (القلب صدى وتخطيط القلب تخطيط).",take:"Structural cardiodynamics and rhythm are best diagnosed with echocardiograms and ECGs."},
+  {id:115,cat:"Part 2",topic:"Heart Disease & Anemia",q:"The NYHA classification system is used to assess:",opts:["Fetal growth","Severity of anemia","Effect of activity on the heart","Renal function"],ans:2,rat:"The NYHA classification system is used to assess the effect of activity on the heart (القلب على النشاط تأثير).",take:"NYHA correlates functional exercise tolerance directly with heart disease severity."},
+  {id:116,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Women in NYHA Class I or II generally:",opts:["Should avoid pregnancy","Tolerate pregnancy well with proper management","Require immediate surgery","Require bed rest throughout pregnancy"],ans:1,rat:"Women in NYHA Class I or II generally tolerate pregnancy well with proper management (المناسبة الإدارة مع جيدًا الحمل يتحملن).",take:"Uncompromised cardiac patients have good safety records when managed optimally during labor."},
+  {id:117,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Which anticoagulant does NOT cross the placenta?",opts:["Warfarin","Heparin","Aspirin","Clopidogrel"],ans:1,rat:"Heparin does NOT cross the placenta (الهرموني اللولب أو المركبة الفموية الحمل موانع).",take:"Heparin represents the safest baseline anticoagulant in pregnancy because it cannot cross the placenta."},
+  {id:118,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Warfarin use during pregnancy is restricted because it is associated with:",opts:["Maternal hypertension","Hyperglycemia","Fetal malformations","Premature rupture of membranes"],ans:2,rat:"Warfarin is restricted due to associated fetal malformations (الجنين تشوهات).",take:"Warfarin embryopathy risks mean it must be avoided during early organogenesis."},
+  {id:119,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Which position is recommended during labor for women with cardiac disease?",opts:["Supine position","Trendelenburg position","Side-lying position with head elevated","Prone position"],ans:2,rat:"Side-lying position with head elevated is recommended for cardiac disease during labor (الرأس رفع مع الجانبي الاستلقاء).",take:"Left lateral position with head elevated prevents vena caval compression and cardiac strain."},
+  {id:120,cat:"Part 2",topic:"Heart Disease & Anemia",q:"A pregnant woman with iron deficiency anemia craves eating ice and clay. This condition is called:",opts:["Dysphagia","Hyperemesis","Pica","Anorexia"],ans:2,rat:"Craving ice and clay is called Pica (البيكا).",take:"Pica is a classic presentation of deep systemic iron depletion."},
+  {id:121,cat:"Part 2",topic:"Heart Disease & Anemia",q:"Iron supplements should preferably be taken with:",opts:["Milk","Tea","Orange juice","Coffee"],ans:2,rat:"Iron supplements should preferably be taken with Orange juice (البرتقال عصير) to promote absorption.",take:"Ascorbic acid facilitates the reduction of iron into its highly absorbable ferrous state."},
+  {id:122,cat:"Part 2",topic:"Heart Disease & Anemia",q:"A pregnant woman taking iron tablets complains of constipation. What is the appropriate nursing advice?",opts:["Stop iron therapy","Decrease fluid intake","Increase fiber and fluid intake","Take iron with milk"],ans:2,rat:"Increase fiber and fluid intake is the appropriate nursing advice for constipation from iron (والسوائل الألياف زيادة).",take:"Manage iron-induced transit delay with high dietary fiber and active hydration, not stopping therapy."},
+
+  {id:123,cat:"Part 2",topic:"Physiology of Labor",q:"Labour consists of how many stages?",opts:["Two stages","Three stages","Four stages","Five stages"],ans:1,rat:"Labour consists of three stages (مراحل ثلاث).",take:"The clinical spectrum of labor comprises 3 distinct, continuous physiological stages."},
+  {id:124,cat:"Part 2",topic:"Physiology of Labor",q:"The first stage of labor begins with:",opts:["Rupture of membranes","Regular uterine contractions with cervical changes","Full cervical dilatation","Delivery of the fetus"],ans:1,rat:"The first stage begins with regular uterine contractions with cervical changes (الرحم عنق تغيرات مع منتظمة رحمية انقباضات).",take:"First stage begins at regular painful contractions with progressive dilation, not fluid rupture."},
+  {id:125,cat:"Part 2",topic:"Physiology of Labor",q:"The latent phase of labor is characterized by cervical dilatation of:",opts:["0–4 cm","4–6 cm","6–8 cm","8–10 cm"],ans:0,rat:"Latent phase = 0–4 cm (سم 4 إلى 0 من).",take:"Latent phase spans early cervical changes up to 4 cm of dilatation."},
+  {id:126,cat:"Part 2",topic:"Physiology of Labor",q:"The active phase of labor starts when cervical dilatation reaches:",opts:["2 cm","3 cm","4 cm","8 cm"],ans:2,rat:"Active phase starts at 4 cm (سم 4).",take:"Accelerated cervical dilation of active labor classically initiates at 4 cm."},
+  {id:127,cat:"Part 2",topic:"Physiology of Labor",q:"The transitional phase begins when the cervix is approximately:",opts:["4 cm","6 cm","8 cm","10 cm"],ans:2,rat:"Transitional phase = 8–10 cm (سم 10 إلى 8 من).",take:"The transitional phase encompasses the rapid change from 8 cm to full 10 cm dilatation."},
+  {id:128,cat:"Part 2",topic:"Physiology of Labor",q:"During the transitional phase, many women experience:",opts:["Desire to sleep","Decreased pain","Urge to push","Increased appetite"],ans:2,rat:"During the transitional phase, many women experience an urge to push (الدفع في الرغبة).",take:"Fetal head descent at the end of stage 1 triggers Ferguson's reflex (urge to push)."},
+  {id:129,cat:"Part 2",topic:"Physiology of Labor",q:"Normal cervical dilatation during the first stage of labor is approximately:",opts:["2–3 cm/hour","0.5–1 cm/hour","3–4 cm/hour","4–5 cm/hour"],ans:1,rat:"Normal cervical dilatation is 0.5–1 cm/hour (سم/ساعة 1-0.5).",take:"Standard labor progression targets a minimum of 0.5 to 1 cm dilation hourly."},
+  {id:130,cat:"Part 2",topic:"Physiology of Labor",q:"Full cervical dilatation at term is approximately:",opts:["6 cm","8 cm","10 cm","12 cm"],ans:2,rat:"Full cervical dilatation at term is approximately 10 cm (سم 10).",take:"10 cm represents the total clearance of the cervix around the presenting part."},
+  {id:131,cat:"Part 2",topic:"Physiology of Labor",q:"Effacement refers to:",opts:["Rupture of membranes","Descent of fetus","Inclusion (taking up) of the cervical canal into the lower uterine segment","Placental separation"],ans:2,rat:"Effacement refers to the inclusion of the cervical canal into the lower uterine segment (الرحم من السفلي الجزء في الرحم عنق قناة اندماج).",take:"During effacement, the cervix merges with the lower uterine segment, thinning to a flat edge."},
+  {id:132,cat:"Part 2",topic:"Physiology of Labor",q:"Before labor becomes established, uterine contractions usually occur every:",opts:["2–3 minutes","5–10 minutes","15–20 minutes","30–40 minutes"],ans:2,rat:"Before labor becomes established, contractions occur every 15–20 minutes (دقيقة 20-15 كل).",take:"Irregular early contractions are separated by 15-20 minutes before establishing dynamic patterns."},
+  {id:133,cat:"Part 2",topic:"Physiology of Labor",q:"By the end of the first stage of labor, contractions usually occur every:",opts:["10–15 minutes","5–7 minutes","2–3 minutes","Every minute"],ans:2,rat:"By the end of the first stage, contractions occur every 2–3 minutes (دقائق 3-2 كل).",take:"The end of the first stage exhibits strong contractions every 2-3 minutes."},
+  {id:134,cat:"Part 2",topic:"Physiology of Labor",q:"A primigravida is in labor. Vaginal exam reveals 9 cm dilation and a strong urge to push. Which phase is she experiencing?",opts:["Latent phase","Active phase","Transitional phase","Third stage"],ans:2,rat:"9 cm dilatation and urge to push indicates Transitional phase (العقبة الانتقالية المرحلة).",take:"Vaginal findings of 9 cm with dynamic pelvic pressure identify the transitional phase."},
+  {id:135,cat:"Part 2",topic:"Physiology of Labor",q:"Each uterine contraction starts in the:",opts:["Lower uterine segment","Cervix","Fundus near one of the cornua","Vagina"],ans:2,rat:"Each uterine contraction starts in the fundus near one of the cornua (القرنين أحد من بالقرب الرحم قاع).",take:"Uterine pacemakers reside near the tubal ostia (cornua) in the fundus."},
+  {id:136,cat:"Part 2",topic:"Physiology of Labor",q:"The third stage of labor extends from birth of the baby until:",opts:["Full cervical dilatation","Delivery of fetal head","Complete expulsion of placenta and membranes","Onset of contractions"],ans:2,rat:"The third stage extends until complete expulsion of placenta and membranes (والأغشية للمشيمة الكامل الطرد).",take:"Expelling both placenta and all trailing membranes defines the third stage."},
+  {id:137,cat:"Part 2",topic:"Physiology of Labor",q:"The normal duration of the third stage of labor is usually:",opts:["1–3 minutes","5–15 minutes","20–30 minutes","More than 2 hours"],ans:1,rat:"The normal duration of the third stage is 5–15 minutes (دقيقة 15-5).",take:"The third stage safely completes within 15 minutes under standard active management."},
+
+  {id:138,cat:"Part 2",topic:"Nursing Care During Labour",q:"Fetal heart rate should be auscultated for a minimum of:",opts:["30 seconds","1 minute","2 minutes","5 minutes"],ans:1,rat:"Fetal heart rate should be auscultated for a minimum of 1 minute (واحدة دقيقة).",take:"Always verify heart rate for a full 60 seconds to accurately count baseline and changes."},
+  {id:139,cat:"Part 2",topic:"Nursing Care During Labour",q:"Vaginal examination during labor is usually performed every:",opts:["Every hour","Every 2 hours","Every 4 hours","Every 6 hours"],ans:2,rat:"Vaginal examination is usually performed every 4 hours (ساعات 4 كل).",take:"VE checks are spaced at 4-hour intervals to lower risk of ascending infections."},
+  {id:140,cat:"Part 2",topic:"Nursing Care During Labour",q:"The progress of labor is recorded using:",opts:["CTG","Ultrasound","Partograph/Partogram","Apgar score"],ans:2,rat:"The progress of labor is recorded using a Partograph/Partogram (المخاض مخطط).",take:"A partograph plots dilation, descent, and vitals over time to spot dystocia early."},
+  {id:141,cat:"Part 2",topic:"Nursing Care During Labour",q:"Women in normal labor should receive which type of diet?",opts:["High-fat diet","High-protein diet","Low-residue, low-fat diet","Nothing by mouth"],ans:2,rat:"Women in normal labor should receive a Low-residue, low-fat diet (الدهون وقليل البقايا قليل غذاء).",take:"Light, easily digestible foods prevent gastric stasis and vomiting during labor."},
+  {id:142,cat:"Part 2",topic:"Nursing Care During Labour",q:"Frequent bladder emptying during labor is recommended every:",opts:["2 hours","3 hours","4 hours","6 hours"],ans:2,rat:"Frequent bladder emptying is recommended every 4 hours (ساعات 4 كل).",take:"Keep the bladder empty to prevent it from blocking the descending fetal head."},
+  {id:143,cat:"Part 2",topic:"Nursing Care During Labour",q:"Intermittent auscultation (IA) is the primary fetal surveillance method for women who:",opts:["Have hypertension","Have diabetes","Have experienced no complications during pregnancy","Have twins"],ans:2,rat:"IA is primary for women who have experienced no complications during pregnancy (الحمل أثناء مضاعفات أي من يعانين لم).",take:"Low-risk women benefit from IA, which avoids unnecessary interventions from continuous EFM."},
+  {id:144,cat:"Part 2",topic:"Nursing Care During Labour",q:"During the first stage of labor, fetal heart auscultation should occur every:",opts:["5 minutes","10 minutes","15 minutes","30 minutes"],ans:2,rat:"During the first stage of labor, fetal heart auscultation should occur every 15 minutes (دقيقة 15 كل).",take:"In low-risk first-stage labor, evaluate the heart rate every 15 minutes."},
+  {id:145,cat:"Part 2",topic:"Nursing Care During Labour",q:"A reassuring CTG baseline fetal heart rate is:",opts:["90–120 bpm","110–160 bpm","160–190 bpm","80–100 bpm"],ans:1,rat:"A reassuring CTG baseline fetal heart rate is 110–160 bpm (نبضة/دقيقة 160-110).",take:"The normal fetal heart rate baseline ranges between 110 and 160 beats per minute."},
+  {id:146,cat:"Part 2",topic:"Nursing Care During Labour",q:"Normal baseline variability in a reassuring CTG is:",opts:["1–3 bpm","5–25 bpm","25–40 bpm",">40 bpm"],ans:1,rat:"Normal baseline variability in a reassuring CTG is 5–25 bpm (نبضة 25-5).",take:"Moderate variability (5–25 bpm) is the most reliable indicator of an oxygenated fetal brain."},
+  {id:147,cat:"Part 2",topic:"Nursing Care During Labour",q:"A laboring woman has a fetal heart baseline of 170 bpm. This CTG finding is classified as:",opts:["Reassuring","Non-reassuring","Abnormal","Normal"],ans:1,rat:"A baseline of 170 bpm is classified as Non-reassuring (مطمئن غير).",take:"Fetal tachycardia over 160 bpm is non-reassuring and requires investigation for maternal fever or hypoxia."},
+  {id:148,cat:"Part 2",topic:"Nursing Care During Labour",q:"Once the fetal head has crowned, the woman should:",opts:["Push strongly","Gently blow and breathe","Hold her breath","Remain silent"],ans:1,rat:"Once the fetal head has crowned, the woman should gently blow and breathe (بلطف والزفير التنفس).",take:"Controlled breathing during crowning allows the perineum to stretch, reducing severe tears."},
+  {id:149,cat:"Part 2",topic:"Nursing Care During Labour",q:"During the resting time after crowning, the nurse should check:",opts:["Maternal blood pressure","The cord is not around the baby’s neck","Placental separation","Fundal height"],ans:1,rat:"During the resting time after crowning, check that the cord is not around the baby’s neck (الطفل عنق حول السري الحبل وجود عدم).",take:"Check for a nuchal cord immediately after head delivery to prevent traction injury."},
+  {id:150,cat:"Part 2",topic:"Nursing Care During Labour",q:"Cord clamping should be delayed for:",opts:["Immediately after birth","30 seconds","1–3 minutes","10 minutes"],ans:2,rat:"Cord clamping should be delayed for 1–3 minutes (دقائق 3-1).",take:"Delaying cord clamping for 60-180 seconds significantly improves neonatal iron stores."},
+  {id:151,cat:"Part 2",topic:"Nursing Care During Labour",q:"The uterotonic drug commonly used during active management of the third stage of labor is:",opts:["Magnesium sulfate","Diazepam","Oxytocin","Heparin"],ans:2,rat:"The uterotonic drug commonly used is Oxytocin (أوكسيتوسين).",take:"Oxytocin is the gold-standard drug for active management of the third stage of labor."},
+  {id:152,cat:"Part 2",topic:"Nursing Care During Labour",q:"The main aim of prophylactic oxytocin administration is to reduce:",opts:["Hypertension","Infection","Postpartum hemorrhage","Fetal distress"],ans:2,rat:"The main aim of prophylactic oxytocin is to reduce Postpartum hemorrhage (الولادة بعد ما نزيف).",take:"Administering oxytocin immediately after delivery is key to preventing uterine atony and PPH."},
+  {id:153,cat:"Part 2",topic:"Nursing Care During Labour",q:"Controlled cord traction should NEVER be used in the absence of:",opts:["Full bladder","Epidural anesthesia","Well-contracted uterus","Vaginal examination"],ans:2,rat:"Controlled cord traction should NEVER be used in the absence of a well-contracted uterus (جيدًا منقبض رحم).",take:"Pulling on the cord when the uterus is soft can cause severe uterine inversion."},
+  {id:154,cat:"Part 2",topic:"Nursing Care During Labour",q:"Which of the following is a sign of placental separation?",opts:["Soft uterus","Shortening of umbilical cord","Lengthening of the umbilical cord","Decreased vaginal bleeding"],ans:2,rat:"Lengthening of the umbilical cord is a sign of placental separation (السري الحبل استطالة).",take:"As the placenta detaches and descends, the extra-abdominal cord segment visibly lengthens."},
+  {id:155,cat:"Part 2",topic:"Nursing Care During Labour",q:"Another sign of placental separation is:",opts:["Uterus becomes soft","Uterus becomes hard, round and mobile","Absence of bleeding","Decreased contractions"],ans:1,rat:"Uterus becomes hard, round and mobile is a sign of placental separation (ومتحركًا ومستديرًا صلبًا الرحم يصبح).",take:"A globularity change where the uterus becomes firm, rounded, and rises signifies separation."},
+  {id:156,cat:"Part 2",topic:"Nursing Care During Labour",q:"Following birth, maternal vital signs should be checked every 15 minutes during:",opts:["Second hour","First hour","First 30 minutes","First day"],ans:1,rat:"Vital signs should be checked every 15 minutes during the First hour (الأولى الساعة).",take:"The first hour postpartum is the highest-risk window for PPH, requiring 15-minute vitals checks."},
+  {id:157,cat:"Part 2",topic:"Nursing Care During Labour",q:"A postpartum woman is assessed. The nurse finds the uterus firm, round, and mobile with a sudden gush of blood. What does this indicate?",opts:["Postpartum hemorrhage","Uterine rupture","Placental separation","Retained placenta"],ans:2,rat:"Firm, round, mobile uterus with a sudden gush of blood indicates Placental separation (المشيمة انفصال).",take:"A firm, mobile uterus with a sudden gush of blood is a normal sign of placental separation."},
+
+  {id:158,cat:"Part 2",topic:"Abnormal Labor",q:"The major abnormalities associated with dysfunctional labor patterns include problems with:",opts:["Mother, fetus, and placenta","Powers, Passenger, and Passageway","Uterus, cervix, and pelvis","Placenta, cord, and membranes"],ans:1,rat:"Major abnormalities include problems with Powers, Passenger, and Passageway (الولادة وقناة والجنين الدافعة القوى).",take:"Dystocia stems from problems with the 3 Ps: Powers, Passenger, or Passageway."},
+  {id:159,cat:"Part 2",topic:"Abnormal Labor",q:"Hypertonic uterine dysfunction occurs when:",opts:["The uterus relaxes too much","The uterus never fully relaxes between contractions","Contractions stop completely","Labor lasts less than 3 hours"],ans:1,rat:"Hypertonic uterine dysfunction occurs when the uterus never fully relaxes between contractions (الانقباضات بين كامل بشكل الرحم يرتخي لا).",take:"Hypertonus is defined as elevated uterine resting tone (>15-20 mmHg) between contractions."},
+  {id:160,cat:"Part 2",topic:"Abnormal Labor",q:"In hypertonic uterine dysfunction, contractions are usually:",opts:["Strong and coordinated","Weak and regular","Irregular and poorly coordinated","Absent"],ans:2,rat:"In hypertonic uterine dysfunction, contractions are irregular and poorly coordinated (التنسيق وضعيفة منتظمة غير).",take:"Hypertonic labor features painful, frequent, but uncoordinated and ineffective contractions."},
+  {id:161,cat:"Part 2",topic:"Abnormal Labor",q:"Hypotonic uterine dysfunction usually occurs during:",opts:["Latent labor","Active labor with dilation >4 cm","Third stage of labor","Postpartum period"],ans:1,rat:"Hypotonic uterine dysfunction usually occurs during Active labor with dilation >4 cm (سم 4 من أكثر اتساع مع النشط المخاض).",take:"Hypotonia is an active phase issue where established contractions lose their strength."},
+  {id:162,cat:"Part 2",topic:"Abnormal Labor",q:"The major risk associated with hypotonic uterine dysfunction is:",opts:["Uterine rupture","Fetal malformation","Postpartum hemorrhage","Placenta previa"],ans:2,rat:"The major risk associated with hypotonic uterine dysfunction is Postpartum hemorrhage (الولادة بعد ما نزيف).",take:"Inadequate contractions during labor warn of postpartum atony, raising the risk of PPH."},
+  {id:163,cat:"Part 2",topic:"Abnormal Labor",q:"Which of the following is a contributing factor to hypotonic uterine dysfunction?",opts:["Early rupture of membranes","Overdistended uterus due to multifetal pregnancy","Maternal hypertension","Maternal anemia"],ans:1,rat:"Overdistended uterus due to multifetal pregnancy is a contributing factor to hypotonic uterine dysfunction (المتعدد الحمل بسبب الرحم تمدد).",take:"Overstretching of uterine muscle fibers (twins, polyhydramnios) leads to hypotonic labor."},
+  {id:164,cat:"Part 2",topic:"Abnormal Labor",q:"Precipitous labor is defined as labor completed within:",opts:["Less than 1 hour","Less than 2 hours","Less than 3 hours","Less than 6 hours"],ans:2,rat:"Precipitous labor is completed within less than 3 hours (ساعات 3 من أقل).",take:"Labor lasting under 3 hours from onset of active contractions is precipitous."},
+  {id:165,cat:"Part 2",topic:"Abnormal Labor",q:"Potential fetal complications of precipitous labor include:",opts:["Congenital anomalies","Placenta previa","Intracranial hemorrhage and hypoxia","Polyhydramnios"],ans:2,rat:"Potential fetal complications include Intracranial hemorrhage and hypoxia (الأكسجة ونقص الجمجمة داخل النزيف).",take:"Rapid descent of the fetal head can cause intracranial shear injuries and hypoxia."},
+  {id:166,cat:"Part 2",topic:"Abnormal Labor",q:"Persistent occiput posterior is considered the:",opts:["Most common presentation","Most common malposition","Least common malposition","Most common fetal anomaly"],ans:1,rat:"Persistent occiput posterior is considered the Most common malposition (شيوعًا الطبيعية غير الوضعيات أكثر).",take:"OP is the most common fetal head malposition encountered in labor."},
+  {id:167,cat:"Part 2",topic:"Abnormal Labor",q:"Persistent occiput posterior labor is usually:",opts:["Short and painless","Short and painful","Longer and more uncomfortable with increased back pain","Normal in duration"],ans:2,rat:"Persistent occiput posterior labor is usually longer and more uncomfortable with increased back pain (الظهر ألم زيادة مع إزعاجًا وأكثر أطول).",take:"OP position causes intense 'back labor' and slows down fetal descent."},
+  {id:168,cat:"Part 2",topic:"Abnormal Labor",q:"Face presentation occurs when there is:",opts:["Full flexion of the fetal head","Complete extension of the fetal head","Partial flexion of the fetal head","Transverse lie"],ans:1,rat:"Face presentation occurs with complete extension of the fetal head (الجنين لرأس كامل امتداد).",take:"In face presentation, extreme hyperextension presents the face as the leading part."},
+  {id:169,cat:"Part 2",topic:"Abnormal Labor",q:"Brow presentation occurs when the fetal head is:",opts:["Fully flexed","Completely extended","Between full flexion and full extension","In breech position"],ans:2,rat:"Brow presentation occurs when the head is between full flexion and full extension (الكامل والامتداد الكامل الانثناء بين).",take:"Brow presentation represents a partial extension, presenting the widest cranial diameters."},
+  {id:170,cat:"Part 2",topic:"Abnormal Labor",q:"Face and brow presentations are diagnosed mainly by:",opts:["Ultrasound only","CTG monitoring","Vaginal examination with palpation of facial features","Abdominal palpation"],ans:2,rat:"Diagnosed mainly by vaginal examination with palpation of facial features (الوجه ملامح جس مع المهبلي الفحص).",take:"Feeling facial landmarks (chin, nose, brows) on vaginal exam confirms the presentation."},
+  {id:171,cat:"Part 2",topic:"Abnormal Labor",q:"External cephalic version is usually attempted after:",opts:["28 weeks of gestation","32 weeks of gestation","36 weeks of gestation","Onset of labor"],ans:2,rat:"External cephalic version is usually attempted after 36 weeks of gestation (36 الحمل من أسبوعًا).",take:"ECV is timed at or after 36 weeks to allow for spontaneous version while ensuring term viability."},
+  {id:172,cat:"Part 2",topic:"Abnormal Labor",q:"Tocolytic drugs are used during external cephalic version to:",opts:["Increase contractions","Induce labor","Relax the uterus","Stop fetal movement"],ans:2,rat:"Tocolytic drugs are used to relax the uterus (الرحم إرخاء).",take:"Tocolytics prevent contractions and relax the uterine wall to facilitate manual rotation of the fetus."},
+  {id:173,cat:"Part 2",topic:"Abnormal Labor",q:"A risk associated with external cephalic version is:",opts:["Hypertension","Gestational diabetes","Umbilical cord entanglement","Hyperemesis gravidarum"],ans:2,rat:"A risk associated with external cephalic version is Umbilical cord entanglement (السري الحبل تشابك).",take:"Forcefully rotating the fetus transabdominally carries risks of cord occlusion or abruption."}
+];
+</script>
+
+<!-- ============ PLATFORM JAVASCRIPT ENGINE ============ -->
+<script>
+// Prevent syntax issues by encapsulating variables inside a unified scope
+(function() {
+  // Global States
+  let activePool = [...QUESTIONS];
+  let currentIdx = 0;
+  let score = { correct: 0, wrong: 0, answered: new Set() };
+  let userChoices = {}; // questionId -> selectedIndex
+  let eliminatedChoices = {}; // questionId -> Set of indices
+  let highlightedChoices = {}; // questionId -> Set of indices
+  
+  // Custom stress timer
+  let stressTimer = null;
+  let stressDuration = 30; // 30 seconds per question
+  let stressRemaining = 30;
+  let stressModeActive = false;
+  
+  // Gamified Engine
+  let gamingMode = false;
+  let xp = 0;
+  let streak = 0;
+  let combo = 1;
+  
+  // Synthesizer Audio Context
+  let audioEnabled = false;
+  let audioCtx = null;
+  
+  // Background loop parameters
+  let activeBg = 0;
+  let animType = 'fade';
+
+  // Initialize the entire suite upon window readiness
+  window.onload = function() {
+    setupBackgroundThumbnails();
+    initBackgroundCanvas();
+    setupPatternLock();
+    loadPersistentData();
+    updateDashboardUI();
+  };
+
+  function showToast(msg, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = `show ${type}`;
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  }
+
+  // ============ PERSISTENT STORAGE ============
+  function loadPersistentData() {
+    try {
+      const savedXp = localStorage.getItem('AMER_CRUSHER_XP');
+      if (savedXp) xp = parseInt(savedXp, 10);
+      
+      const savedChoices = localStorage.getItem('AMER_CRUSHER_CHOICES');
+      if (savedChoices) userChoices = JSON.parse(savedChoices);
+    } catch (e) {
+      console.error("Local Storage reading error:", e);
+    }
+  }
+
+  function saveComment(questionId, text) {
+    localStorage.setItem(`comment_${questionId}`, text);
+  }
+
+  function getComment(questionId) {
+    return localStorage.getItem(`comment_${questionId}`) || '';
+  }
+
+  function saveRating(questionId, scoreVal) {
+    localStorage.setItem(`rating_${questionId}`, scoreVal);
+  }
+
+  function getRating(questionId) {
+    return parseInt(localStorage.getItem(`rating_${questionId}`), 10) || 0;
+  }
+
+  // ============ SYNTHESIS AUDIO ENGINE ============
+  window.toggleAudio = function() {
+    audioEnabled = !audioEnabled;
+    const btn = document.getElementById('audioBtn');
+    if (audioEnabled) {
+      btn.classList.add('blue-active');
+      showToast("Retro Chiptune Sound Enabled", "success");
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    } else {
+      btn.classList.remove('blue-active');
+      showToast("Retro Sounds Muted", "info");
+    }
+  };
+
+  function playSynthSound(freqs, duration, type = 'sine') {
+    if (!audioEnabled || !audioCtx) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      const now = audioCtx.currentTime;
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      
+      if (freqs.length === 1) {
+        osc.frequency.setValueAtTime(freqs[0], now);
+      } else {
+        // Multi-tone chime/laser
+        osc.frequency.setValueAtTime(freqs[0], now);
+        freqs.forEach((f, idx) => {
+          if (idx > 0) {
+            osc.frequency.setValueAtTime(f, now + (duration / freqs.length) * idx);
+          }
+        });
+      }
+      
+      osc.start(now);
+      osc.stop(now + duration);
+    } catch(err) {
+      console.warn("Synthesizer context exception", err);
+    }
+  }
+
+  // ============ STARTUP U-SHAPE PATTERN LOCK ============
+  function setupPatternLock() {
+    const canvas = document.getElementById('patternCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const nodes = [];
+    const gridSize = 3;
+    const spacing = 300 / (gridSize + 1);
+    
+    // Create 3x3 layout nodes
+    for (let r = 0; r < gridSize; r++) {
+      for (let c = 0; c < gridSize; c++) {
+        nodes.push({
+          x: spacing * (c + 1),
+          y: spacing * (r + 1),
+          id: r * gridSize + c,
+          radius: 12
+        });
+      }
+    }
+
+    let isDrawing = false;
+    let path = [];
+
+    function drawLock() {
+      ctx.clearRect(0, 0, 300, 300);
+      
+      // Draw grid paths
+      if (path.length > 0) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[path[0]].x, nodes[path[0]].y);
+        for (let i = 1; i < path.length; i++) {
+          ctx.lineTo(nodes[path[i]].x, nodes[path[i]].y);
+        }
+        ctx.strokeStyle = '#00f3ff';
+        ctx.lineWidth = 5;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      // Draw node dots
+      nodes.forEach(node => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        const inPath = path.includes(node.id);
+        ctx.fillStyle = inPath ? '#ff7700' : 'rgba(255,255,255,0.1)';
+        ctx.fill();
+        ctx.strokeStyle = inPath ? '#ffd23f' : 'rgba(0, 243, 255, 0.4)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    }
+
+    drawLock();
+
+    // Event hooks for both mouse and touch
+    function getMousePos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function checkCollision(pos) {
+      for (let i = 0; i < nodes.length; i++) {
+        const d = Math.hypot(nodes[i].x - pos.x, nodes[i].y - pos.y);
+        if (d < nodes[i].radius * 2) {
+          return nodes[i].id;
+        }
+      }
+      return null;
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      isDrawing = true;
+      path = [];
+      const pos = getMousePos(e);
+      const nid = checkCollision(pos);
+      if (nid !== null) path.push(nid);
+      drawLock();
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getMousePos(e);
+      const nid = checkCollision(pos);
+      if (nid !== null && !path.includes(nid)) {
+        path.push(nid);
+        playSynthSound([330 + nid * 40], 0.05, 'triangle');
+      }
+      drawLock();
+    }
+
+    function endDraw(e) {
+      if (!isDrawing) return;
+      isDrawing = false;
+      validatePattern();
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', moveDraw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('touchstart', startDraw, {passive: false});
+    canvas.addEventListener('touchmove', moveDraw, {passive: false});
+    canvas.addEventListener('touchend', endDraw, {passive: false});
+
+    function validatePattern() {
+      // Correct U-Shape connections: 0 -> 3 -> 6 -> 7 -> 8 -> 5 -> 2
+      const correctPath = [0, 3, 6, 7, 8, 5, 2];
+      const reversePath = [2, 5, 8, 7, 6, 3, 0];
+      const isCorrect = (path.length === correctPath.length && path.every((v, i) => v === correctPath[i])) ||
+                        (path.length === reversePath.length && path.every((v, i) => v === reversePath[i]));
+
+      if (isCorrect) {
+        ctx.strokeStyle = '#10b981';
+        ctx.stroke();
+        playSynthSound([523.25, 659.25, 783.99], 0.35, 'sine');
+        showToast("Platform Decrypted Successfully", "success");
+        setTimeout(bypassLock, 400);
+      } else {
+        path = [];
+        drawLock();
+        playSynthSound([150], 0.25, 'sawtooth');
+        showToast("Access Denied - Try Again", "error");
+      }
+    }
+  }
+
+  window.bypassLock = function() {
+    const shield = document.getElementById('patternLockScreen');
+    if (shield) shield.style.display = 'none';
+    playSynthSound([440, 880], 0.2, 'sine');
+    // Default: Start quiz with first question
+    loadQuestion(0);
+  };
+
+  // ============ LIVE BACKGROUND LAYERS ============
+  function setupBackgroundThumbnails() {
+    const wrapper = document.getElementById('bgSelector');
+    if (!wrapper) return;
+    const names = ["Aurora", "Particles", "Digital Grid", "Neural", "Starfield", "Blobs", "Rings", "Fireflies", "Matrix", "Nebula"];
+    names.forEach((name, index) => {
+      const thumb = document.createElement('div');
+      thumb.className = `bg-thumb ${index === activeBg ? 'active' : ''}`;
+      thumb.style.background = getBgThumbnailStyle(index);
+      thumb.onclick = () => switchBackgroundLayer(index);
+      const span = document.createElement('span');
+      span.textContent = name;
+      thumb.appendChild(span);
+      wrapper.appendChild(thumb);
+    });
+  }
+
+  function getBgThumbnailStyle(idx) {
+    const gradients = [
+      "linear-gradient(135deg, #050814, #0e1329)",
+      "radial-gradient(circle, #10b981 10%, #060913 90%)",
+      "linear-gradient(90deg, #1e293b, #0f172a)",
+      "radial-gradient(circle, #00f3ff 5%, #060913 95%)",
+      "radial-gradient(circle, #fff 2%, #040712 90%)",
+      "linear-gradient(45deg, var(--fire-red), var(--ice-blue))",
+      "radial-gradient(ellipse, var(--neon-purple), var(--bg))",
+      "radial-gradient(circle, #ffcc00 15%, #060913 85%)",
+      "linear-gradient(180deg, #00ff66, #060913)",
+      "radial-gradient(circle, #bd00ff, #ff3333)"
+    ];
+    return gradients[idx] || '#000';
+  }
+
+  function switchBackgroundLayer(idx) {
+    const thumbs = document.querySelectorAll('.bg-thumb');
+    thumbs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    
+    const layers = document.querySelectorAll('.bg-layer');
+    layers.forEach((l, i) => l.classList.toggle('active', i === idx));
+    
+    activeBg = idx;
+    showToast(`Theme changed to ${thumbs[idx].querySelector('span').textContent}`, "info");
+    playSynthSound([500, 700], 0.1, 'sine');
+  }
+
+  function initBackgroundCanvas() {
+    // 1. Particle Storm
+    setupLayerCanvas(1, (ctx, w, h) => {
+      let particles = Array.from({length: 40}, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5,
+        r: Math.random() * 3 + 1
+      }));
+      return () => {
+        ctx.fillStyle = 'rgba(6, 9, 19, 0.2)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(0, 243, 255, 0.4)';
+        particles.forEach(p => {
+          p.x = (p.x + p.vx + w) % w;
+          p.y = (p.y + p.vy + h) % h;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      };
+    });
+
+    // 2. Neural Connection Network
+    setupLayerCanvas(3, (ctx, w, h) => {
+      let dots = Array.from({length: 30}, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8
+      }));
+      return () => {
+        ctx.fillStyle = '#060913';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(189, 0, 255, 0.6)';
+        dots.forEach(d => {
+          d.x = (d.x + d.vx + w) % w;
+          d.y = (d.y + d.vy + h) % h;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        // Draw lines
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.12)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < dots.length; i++) {
+          for (let j = i + 1; j < dots.length; j++) {
+            const dist = Math.hypot(dots[i].x - dots[j].x, dots[i].y - dots[j].y);
+            if (dist < 100) {
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      };
+    });
+
+    // 3. Galactic Starfield
+    setupLayerCanvas(4, (ctx, w, h) => {
+      let stars = Array.from({length: 80}, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        z: Math.random() * w
+      }));
+      return () => {
+        ctx.fillStyle = '#02040a';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#ffffff';
+        stars.forEach(s => {
+          s.z -= 1.5;
+          if (s.z <= 0) s.z = w;
+          const k = 128 / s.z;
+          const px = (s.x - w / 2) * k + w / 2;
+          const py = (s.y - h / 2) * k + h / 2;
+          if (px >= 0 && px < w && py >= 0 && py < h) {
+            const size = (1 - s.z / w) * 3;
+            ctx.fillRect(px, py, size, size);
+          }
+        });
+      };
+    });
+
+    // 4. Fireflies
+    setupLayerCanvas(7, (ctx, w, h) => {
+      let flies = Array.from({length: 25}, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        angle: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.5 + 0.2,
+        opacity: Math.random()
+      }));
+      return () => {
+        ctx.fillStyle = '#050711';
+        ctx.fillRect(0, 0, w, h);
+        flies.forEach(f => {
+          f.angle += (Math.random() - 0.5) * 0.1;
+          f.x = (f.x + Math.cos(f.angle) * f.speed + w) % w;
+          f.y = (f.y + Math.sin(f.angle) * f.speed + h) % h;
+          f.opacity = 0.4 + Math.abs(Math.sin(Date.now() / 600 + f.x));
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, Math.random() * 2 + 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 204, 0, ${f.opacity})`;
+          ctx.fill();
+        });
+      };
+    });
+
+    // 5. Code Matrix Rain
+    setupLayerCanvas(8, (ctx, w, h) => {
+      const cols = Math.floor(w / 16) + 1;
+      const drops = Array(cols).fill(1);
+      return () => {
+        ctx.fillStyle = 'rgba(4, 6, 15, 0.15)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#00ff66';
+        ctx.font = '13px monospace';
+        drops.forEach((y, i) => {
+          const char = String.fromCharCode(33 + Math.random() * 93);
+          ctx.fillText(char, i * 16, y * 16);
+          if (y * 16 > h && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        });
+      };
+    });
+  }
+
+  function setupLayerCanvas(layerIndex, loopBuilder) {
+    const layer = document.querySelector(`.bg-layer[data-bg="${layerIndex}"]`);
+    if (!layer) return;
+    const canvas = layer.querySelector('canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    
+    const tick = loopBuilder(ctx, canvas.width, canvas.height);
+    function render() {
+      if (activeBg === layerIndex) {
+        tick();
+      }
+      requestAnimationFrame(render);
+    }
+    render();
+  }
+
+  // ============ THE QUIZ AND MCQ RENDER SYSTEM ============
+  function loadQuestion(idx) {
+    if (idx < 0 || idx >= activePool.length) return;
+    currentIdx = idx;
+    
+    const q = activePool[idx];
+    if (!q) {
+      console.error("Question is undefined at index:", idx);
+      return;
+    }
+    const card = document.getElementById('quizCard');
+    
+    // Apply clean visual animation speed types
+    card.className = `quiz-card transition-${animType}`;
+    setTimeout(() => {
+      card.style.opacity = '1';
+    }, 50);
+
+    // Meta Categories
+    const metaBox = document.getElementById('quizMeta');
+    metaBox.innerHTML = `
+      <span class="meta-chip chip-cat"><i class="fa-solid fa-folder-open"></i> ${q.cat}</span>
+      <span class="meta-chip chip-topic"><i class="fa-solid fa-hashtag"></i> ${q.topic}</span>
+      <span class="meta-chip chip-q"><i class="fa-solid fa-cube"></i> Index #${q.id}</span>
+    `;
+
+    document.getElementById('qNumber').textContent = `QUESTION ${idx + 1} OF ${activePool.length}`;
+    document.getElementById('qText').innerHTML = q.q;
+
+    // Load custom persistent comments & ratings
+    document.getElementById('notesTextarea').value = getComment(q.id);
+    renderStarRating(q.id);
+
+    // Reset feedback visuals
+    document.getElementById('feedbackBar').className = 'feedback-bar';
+    document.getElementById('rationaleBox').className = 'rationale-box';
+
+    // Build the Options lists with hover helper buttons
+    const optBox = document.getElementById('options');
+    optBox.innerHTML = '';
+    
+    q.opts.forEach((optText, oIdx) => {
+      const optionElement = document.createElement('div');
+      optionElement.className = 'option';
+      
+      const savedChoice = userChoices[q.id];
+      const hasAnswered = (savedChoice !== undefined);
+
+      // Restore states if answered
+      if (hasAnswered) {
+        if (oIdx + 1 === q.ans) {
+          optionElement.classList.add('correct');
+        } else if (savedChoice === oIdx + 1) {
+          optionElement.classList.add('wrong');
+        }
+      }
+
+      // Restore active critical eliminations
+      if (eliminatedChoices[q.id] && eliminatedChoices[q.id].has(oIdx)) {
+        optionElement.classList.add('eliminated');
+      }
+      if (highlightedChoices[q.id] && highlightedChoices[q.id].has(oIdx)) {
+        optionElement.classList.add('highlighted');
+      }
+
+      optionElement.innerHTML = `
+        <div class="letter-badge">${String.fromCharCode(65 + oIdx)}</div>
+        <div class="opt-content">${optText}</div>
+        <div class="option-actions">
+          <button class="action-ico-btn" onclick="toggleEliminate(event, ${oIdx})" title="Eliminate choice"><i class="fa-solid fa-xmark"></i></button>
+          <button class="action-ico-btn" onclick="toggleHighlight(event, ${oIdx})" title="Highlight choice"><i class="fa-solid fa-highlighter"></i></button>
+        </div>
+      `;
+
+      optionElement.onclick = (e) => {
+        if (e.target.closest('.action-ico-btn')) return;
+        selectOption(oIdx + 1);
+      };
+
+      optBox.appendChild(optionElement);
+    });
+
+    // Restore Rationale reveal on reload/menses
+    if (userChoices[q.id] !== undefined) {
+      revealRationale(q);
+    }
+
+    updateNavProgress();
+    updateDashboardUI();
+    
+    // Auto initiate stress counter
+    if (stressModeActive) {
+      startStressCounter();
+    }
+  }
+
+  window.toggleEliminate = function(e, idx) {
+    e.stopPropagation();
+    const q = activePool[currentIdx];
+    if (!q) return;
+    if (!eliminatedChoices[q.id]) eliminatedChoices[q.id] = new Set();
+    
+    const optionDivs = document.querySelectorAll('#options .option');
+    if (eliminatedChoices[q.id].has(idx)) {
+      eliminatedChoices[q.id].delete(idx);
+      optionDivs[idx].classList.remove('eliminated');
+    } else {
+      eliminatedChoices[q.id].add(idx);
+      optionDivs[idx].classList.add('eliminated');
+      playSynthSound([180], 0.1, 'sawtooth');
+    }
+  };
+
+  window.toggleHighlight = function(e, idx) {
+    e.stopPropagation();
+    const q = activePool[currentIdx];
+    if (!q) return;
+    if (!highlightedChoices[q.id]) highlightedChoices[q.id] = new Set();
+    
+    const optionDivs = document.querySelectorAll('#options .option');
+    if (highlightedChoices[q.id].has(idx)) {
+      highlightedChoices[q.id].delete(idx);
+      optionDivs[idx].classList.remove('highlighted');
+    } else {
+      highlightedChoices[q.id].add(idx);
+      optionDivs[idx].classList.add('highlighted');
+      playSynthSound([420], 0.1, 'triangle');
+    }
+  };
+
+  function selectOption(choiceNum) {
+    const q = activePool[currentIdx];
+    if (!q) return;
+    if (userChoices[q.id] !== undefined) return; // Prevent double trigger
+
+    userChoices[q.id] = choiceNum;
+    score.answered.add(q.id);
+    localStorage.setItem('AMER_CRUSHER_CHOICES', JSON.stringify(userChoices));
+
+    const optionDivs = document.querySelectorAll('#options .option');
+    const correctIdx = q.ans - 1;
+    const chosenIdx = choiceNum - 1;
+
+    // Visual feedback
+    const isCorrect = (choiceNum === q.ans);
+    const mainCard = document.getElementById('quizCard');
+
+    if (isCorrect) {
+      if (optionDivs[chosenIdx]) optionDivs[chosenIdx].classList.add('correct');
+      mainCard.classList.add('correct-flash');
+      score.correct++;
+      streak++;
+      if (streak % 5 === 0) combo++;
+      xp += (15 * combo);
+      triggerCelebration();
+      playSynthSound([440, 554, 659, 880], 0.4, 'sine');
+    } else {
+      if (optionDivs[chosenIdx]) optionDivs[chosenIdx].classList.add('wrong');
+      if (optionDivs[correctIdx]) optionDivs[correctIdx].classList.add('correct');
+      mainCard.classList.add('wrong-flash');
+      score.wrong++;
+      streak = 0;
+      combo = 1;
+      playSynthSound([220, 110], 0.45, 'sawtooth');
+    }
+
+    setTimeout(() => {
+      mainCard.classList.remove('correct-flash', 'wrong-flash');
+    }, 700);
+
+    // Save stats locally
+    localStorage.setItem('AMER_CRUSHER_XP', xp);
+
+    revealRationale(q);
+    updateDashboardUI();
+  }
+
+  function revealRationale(q) {
+    const box = document.getElementById('rationaleBox');
+    document.getElementById('ratText').textContent = q.rat;
+    document.getElementById('takeawayText').textContent = q.take;
+    box.classList.add('show');
+    
+    const isCorrect = (userChoices[q.id] === q.ans);
+    const fBar = document.getElementById('feedbackBar');
+    fBar.innerHTML = isCorrect ? 
+      `<i class="fa-solid fa-circle-check"></i> Right choice! 15 XP earned.` : 
+      `<i class="fa-solid fa-circle-xmark"></i> Wrong choice. The correct target is option ${String.fromCharCode(64 + q.ans)}.`;
+    fBar.className = `feedback-bar show ${isCorrect ? 'correct' : 'wrong'}`;
+  }
+
+  // ============ CELEBRATION SHIELD ============
+  function triggerCelebration() {
+    const screen = document.getElementById('celebration');
+    const msg = document.getElementById('celebrationMsg');
+    const quotes = ["EXCELLENT!", "CRUSHED!", "PERFECT!", "INCREDIBLE!", "GENIUS!"];
+    msg.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    
+    screen.classList.add('show');
+    
+    // Burst micro confetti elements
+    for(let i = 0; i < 35; i++) {
+      const conf = document.createElement('div');
+      conf.className = 'confetti';
+      conf.style.left = `${Math.random() * 100}vw`;
+      conf.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      conf.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+      conf.style.animationDelay = `${Math.random() * 0.5}s`;
+      screen.appendChild(conf);
+      setTimeout(() => conf.remove(), 3000);
+    }
+    
+    setTimeout(() => {
+      screen.classList.remove('show');
+    }, 1500);
+  }
+
+  // ============ DYNAMIC STUDY HUD & DASHBOARD ============
+  function updateDashboardUI() {
+    // Left-side statistics parameters
+    const total = activePool.length;
+    const answered = score.answered.size;
+    const correctHits = score.correct;
+    const wrongHits = score.wrong;
+    const acc = answered > 0 ? Math.round((correctHits / answered) * 100) : 0;
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statAnswered').textContent = `${answered}/${total}`;
+    document.getElementById('statCorrect').textContent = correctHits;
+    document.getElementById('statWrong').textContent = wrongHits;
+    document.getElementById('statAcc').textContent = `${acc}%`;
+
+    // Modern HUD parameters
+    document.getElementById('hudXP').textContent = xp;
+    document.getElementById('hudStreak').textContent = streak;
+    document.getElementById('hudCombo').textContent = `x${combo}`;
+
+    // Side Progress bar fill
+    const fillPct = total > 0 ? (answered / total) * 100 : 0;
+    document.getElementById('progressFill').style.width = `${fillPct}%`;
+
+    // Unlock rewards checks
+    checkMilestones();
+  }
+
+  function checkMilestones() {
+    const grid = document.getElementById('achvGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    const badges = [
+      {xp: 100, name: "Obg Cadet", icon: "fa-baby"},
+      {xp: 500, name: "Clinician", icon: "fa-stethoscope"},
+      {xp: 1200, name: "Crusher Elite", icon: "fa-skull-crossbones"},
+      {xp: 2500, name: "Chief Surgeon", icon: "fa-user-doctor"}
+    ];
+
+    badges.forEach(b => {
+      const isUnlocked = xp >= b.xp;
+      const card = document.createElement('div');
+      card.className = `achv ${isUnlocked ? 'unlocked' : ''}`;
+      card.innerHTML = `
+        <i class="fa-solid ${b.icon}"></i>
+        <div class="achv-tooltip"><strong>${b.name}</strong><br>${isUnlocked ? 'Unlocked' : `Requires ${b.xp} XP`}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // ============ RATING & SAVE STORAGE comments ============
+  window.rateQuestion = function(val) {
+    const q = activePool[currentIdx];
+    if (!q) return;
+    saveRating(q.id, val);
+    renderStarRating(q.id);
+    showToast(`Question rated ${val} stars`, "success");
+    playSynthSound([587.33, 659.25], 0.15, 'sine');
+  };
+
+  function renderStarRating(qId) {
+    const val = getRating(qId);
+    const stars = document.querySelectorAll('#ratingStars .star-btn');
+    stars.forEach((btn, idx) => {
+      btn.classList.toggle('active', idx < val);
+    });
+  }
+
+  window.saveCurrentNote = function() {
+    const q = activePool[currentIdx];
+    if (!q) return;
+    const val = document.getElementById('notesTextarea').value;
+    saveComment(q.id, val);
+  };
+
+  // ============ WHATSAPP DECENT GENERATOR ============
+  window.toggleShareMenu = function(e) {
+    e.stopPropagation();
+    document.getElementById('shareMenu').classList.toggle('show');
+  };
+
+  document.addEventListener('click', () => {
+    const menu = document.getElementById('shareMenu');
+    if (menu) menu.classList.remove('show');
+  });
+
+  window.shareMCQ = function(mode) {
+    const q = activePool[currentIdx];
+    if (!q) return;
+    const headerTitle = `🌟 *AmeRQbanK* - OBG CRUSHER 🌟\n\n`;
+    let body = ``;
+
+    if (mode === 1) {
+      // Question only
+      body = `❓ *Question #${q.id}:*\n${cleanTextForWhatsapp(q.q)}`;
+    } else if (mode === 2) {
+      // Question & Answer
+      body = `❓ *Question #${q.id}:*\n${cleanTextForWhatsapp(q.q)}\n\n✅ *Correct Answer:* ${cleanTextForWhatsapp(q.opts[q.ans - 1])}`;
+    } else if (mode === 3) {
+      // Question & Options
+      const optionsTxt = q.opts.map((o, i) => `${String.fromCharCode(65 + i)}) ${o}`).join('\n');
+      body = `❓ *Question #${q.id}:*\n${cleanTextForWhatsapp(q.q)}\n\n*Options:*\n${optionsTxt}`;
+    } else if (mode === 4) {
+      // Complete bundle with user comments
+      const optionsTxt = q.opts.map((o, i) => `${String.fromCharCode(65 + i)}) ${o}`).join('\n');
+      const comment = getComment(q.id) || "None";
+      body = `❓ *Question #${q.id}:*\n${cleanTextForWhatsapp(q.q)}\n\n*Options:*\n${optionsTxt}\n\n✅ *Answer:* ${String.fromCharCode(64 + q.ans)}\n\n📝 *My Notes:* _${comment}_`;
+    }
+
+    const footer = `\n\n_Keep crushing with AMER ALSHRIF 2026_`;
+    const targetUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(headerTitle + body + footer)}`;
+    window.open(targetUrl, '_blank');
+  };
+
+  function cleanTextForWhatsapp(str) {
+    // Strips out any raw HTML tags before sending menses to whatsapp
+    return str.replace(/<[^>]*>/g, '');
+  }
+
+  // ============ NAV CONTROL TRIGGERS ============
+  window.nextQuestion = function() {
+    if (currentIdx < activePool.length - 1) {
+      loadQuestion(currentIdx + 1);
+    } else {
+      showToast("You are on the last question", "info");
+    }
+  };
+
+  window.prevQuestion = function() {
+    if (currentIdx > 0) {
+      loadQuestion(currentIdx - 1);
+    } else {
+      showToast("You are on the first question", "info");
+    }
+  };
+
+  function updateNavProgress() {
+    document.getElementById('navProgress').textContent = `Question ${currentIdx + 1} of ${activePool.length}`;
+    document.getElementById('prevBtn').disabled = (currentIdx === 0);
+    document.getElementById('nextBtn').disabled = (currentIdx === activePool.length - 1);
+  }
+
+  // ============ CUSTOM SESSION SETUP ============
+  window.openCustomModal = function() {
+    document.getElementById('customModal').classList.add('show');
+  };
+
+  window.closeCustomModal = function() {
+    document.getElementById('customModal').classList.remove('show');
+  };
+
+  window.startCustomQuiz = function(num) {
+    closeCustomModal();
+    if (num === 279) {
+      activePool = [...QUESTIONS];
+    } else if (num === 110) {
+      activePool = QUESTIONS.filter(q => q.cat === "Part 1");
+    } else if (num === 169) {
+      activePool = QUESTIONS.filter(q => q.cat === "Part 2");
+    } else {
+      // Shuffle first, then slice
+      const copy = [...QUESTIONS];
+      shuffleArray(copy);
+      activePool = copy.slice(0, num);
+    }
+    
+    currentIdx = 0;
+    userChoices = {};
+    eliminatedChoices = {};
+    highlightedChoices = {};
+    score = { correct: 0, wrong: 0, answered: new Set() };
+    
+    document.getElementById('resultsScreen').style.display = 'none';
+    document.querySelector('.main-grid').style.display = 'grid';
+    
+    loadQuestion(0);
+    showToast(`Configured block with ${activePool.length} MCQs`, "success");
+    playSynthSound([600, 800, 1000], 0.25, 'sine');
+  };
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  window.shuffleQuestions = function() {
+    shuffleArray(activePool);
+    currentIdx = 0;
+    loadQuestion(0);
+    showToast("Questions order randomized", "info");
+    playSynthSound([520, 640], 0.2, 'triangle');
+  };
+
+  // ============ RETEST WRONG ANSWERS ============
+  window.retestWrong = function() {
+    const wrongList = QUESTIONS.filter(q => {
+      const choice = userChoices[q.id];
+      return choice !== undefined && choice !== q.ans;
+    });
+
+    if (wrongList.length === 0) {
+      showToast("No errors to retest!", "success");
+      return;
+    }
+
+    activePool = wrongList;
+    currentIdx = 0;
+    userChoices = {};
+    eliminatedChoices = {};
+    highlightedChoices = {};
+    score = { correct: 0, wrong: 0, answered: new Set() };
+
+    document.getElementById('resultsScreen').style.display = 'none';
+    document.querySelector('.main-grid').style.display = 'grid';
+    
+    loadQuestion(0);
+    showToast(`Retesting ${activePool.length} incorrect targets`, "info");
+    playSynthSound([300, 500], 0.2, 'sine');
+  };
+
+  // ============ TIME STRESS ============
+  window.toggleTimeStress = function() {
+    stressModeActive = !stressModeActive;
+    const btn = document.getElementById('stressBtn');
+    const bar = document.getElementById('stressBar');
+    const txt = document.getElementById('stressText');
+
+    if (stressModeActive) {
+      btn.classList.add('active');
+      bar.classList.add('show');
+      txt.classList.add('show');
+      startStressCounter();
+      showToast("Time stress activated", "error");
+    } else {
+      btn.classList.remove('active');
+      bar.classList.remove('show');
+      txt.classList.remove('show');
+      clearInterval(stressTimer);
+      showToast("Stress mode muted", "info");
+    }
+  };
+
+  function startStressCounter() {
+    clearInterval(stressTimer);
+    stressRemaining = stressDuration;
+    updateStressUI();
+
+    stressTimer = setInterval(() => {
+      stressRemaining--;
+      updateStressUI();
+
+      if (stressRemaining <= 0) {
+        clearInterval(stressTimer);
+        handleTimeOut();
+      }
+    }, 1000);
+  }
+
+  function updateStressUI() {
+    const fill = document.getElementById('stressFill');
+    const txt = document.getElementById('stressText');
+    const pct = (stressRemaining / stressDuration) * 100;
+    
+    if (fill) fill.style.width = `${pct}%`;
+    if (txt) txt.textContent = `CRITICAL STRESS WINDOW: ${stressRemaining} SECONDS`;
+    
+    if (stressRemaining < 8) {
+      playSynthSound([1000], 0.05, 'sawtooth');
+    }
+  }
+
+  function handleTimeOut() {
+    showToast("Stress time elapsed!", "error");
+    // Trigger default wrong to auto-reveal answer
+    selectOption(-1);
+  }
+
+  // ============ GAMIFIED MODE SWAPPER ============
+  window.toggleGaming = function() {
+    gamingMode = !gamingMode;
+    document.body.classList.toggle('gaming-mode', gamingMode);
+    const btn = document.getElementById('gamingBtn');
+    
+    if (gamingMode) {
+      btn.classList.add('active');
+      showToast("Gamified gaming mode active", "success");
+      playSynthSound([523.25, 659.25, 783.99, 1046.5], 0.3, 'sine');
+    } else {
+      btn.classList.remove('active');
+      showToast("Classic interface active", "info");
+    }
+  };
+
+  // ============ POMODORO SYSTEM ============
+  let pomoTimer = null;
+  let pomoRemaining = 1500; // 25 minutes
+  let pomoTotal = 1500;
+  let pomoLabelState = "FOCUS";
+  let pomoThemeState = "volcano";
+
+  window.pomoStart = function() {
+    clearInterval(pomoTimer);
+    pomoTimer = setInterval(() => {
+      if (pomoRemaining > 0) {
+        pomoRemaining--;
+        updatePomoDisplay();
+      } else {
+        clearInterval(pomoTimer);
+        playSynthSound([800, 800, 800], 0.6, 'sine');
+        showToast("Interval complete!", "success");
+      }
+    }, 1000);
+    showToast("Pomodoro timer started", "success");
+  };
+
+  window.pomoPause = function() {
+    clearInterval(pomoTimer);
+    showToast("Timer suspended", "info");
+  };
+
+  window.pomoReset = function() {
+    clearInterval(pomoTimer);
+    pomoRemaining = pomoTotal;
+    updatePomoDisplay();
+    showToast("Interval refreshed", "info");
+  };
+
+  window.pomoSetMode = function(type, mins, label, btnEl) {
+    pomoRemaining = mins * 60;
+    pomoTotal = mins * 60;
+    pomoLabelState = label;
+    document.getElementById('pomoLabel').textContent = label;
+    
+    document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active'));
+    if (btnEl) {
+      btnEl.classList.add('active');
+    }
+
+    updatePomoDisplay();
+    showToast(`Timer configured to ${mins} mins`, "success");
+  };
+
+  window.setPomoTheme = function(themeName, btnEl) {
+    pomoThemeState = themeName;
+    const ring = document.getElementById('ringPomo');
+    
+    document.querySelectorAll('.pomo-theme-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) {
+      btnEl.classList.add('active');
+    }
+
+    if (themeName === 'volcano') {
+      ring.setAttribute('stroke', 'url(#fireGrad)');
+    } else {
+      ring.setAttribute('stroke', 'url(#iceGrad)');
+    }
+    showToast(`Pomodoro style changed`, "info");
+  };
+
+  function updatePomoDisplay() {
+    const mins = Math.floor(pomoRemaining / 60);
+    const secs = pomoRemaining % 60;
+    document.getElementById('pomoTime').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    
+    const circ = 552.9; // Circumference of 88 radius circle
+    const offset = circ * (pomoRemaining / pomoTotal);
+    const ring = document.getElementById('ringPomo');
+    if (ring) ring.style.strokeDashoffset = circ - offset;
+  }
+
+  // ============ TUTORIAL guides ============
+  window.toggleTutorial = function() {
+    document.getElementById('tutorial').classList.toggle('show');
+  };
+
+  // ============ VIEW MASTER SHEET ============
+  window.openReviewMode = function() {
+    const screen = document.getElementById('reviewScreen');
+    const content = document.getElementById('reviewContent');
+    content.innerHTML = '';
+
+    QUESTIONS.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'review-item';
+      
+      const optionsText = q.opts.map((o, i) => {
+        const isCorrect = (i + 1 === q.ans);
+        return `<div class="review-opt ${isCorrect ? 'correct' : ''}">
+          <strong>${String.fromCharCode(65 + i)}:</strong> ${o}
+        </div>`;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="review-q-meta">
+          <span class="meta-chip chip-cat">${q.cat}</span>
+          <span class="meta-chip chip-topic">${q.topic}</span>
+        </div>
+        <h4>${q.q}</h4>
+        <div>${optionsText}</div>
+        <div class="review-rat">
+          <strong>Key Explanation:</strong> ${q.rat}<br>
+          <strong style="color:var(--ice-blue);">Takeaway Summary:</strong> ${q.take}
+        </div>
+      `;
+      content.appendChild(card);
+    });
+
+    screen.classList.add('show');
+    showToast("Master review list generated", "success");
+  };
+
+  window.closeReviewMode = function() {
+    document.getElementById('reviewScreen').classList.remove('show');
+  };
+
+  // ============ ANCILLARY CONTROLS ============
+  window.toggleFullscreen = function() {
+    try {
+      if (!document.fullscreenElement) {
+        const promise = document.documentElement.requestFullscreen();
+        if (promise && promise.catch) {
+          promise.catch(err => {
+            console.warn("Fullscreen permission denied:", err);
+            showToast("Fullscreen disabled by browser permissions", "info");
+          });
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(err => console.warn(err));
+        }
+      }
+    } catch (err) {
+      console.warn("Fullscreen not supported:", err);
+      showToast("Fullscreen not supported in this window context", "info");
+    }
+  };
+
+  window.toggleFocus = function() {
+    document.body.classList.toggle('focus-mode');
+    showToast("Focus layout shifted", "info");
+  };
+
+  window.changeAnimationType = function() {
+    const val = document.getElementById('animationTypeSelect').value;
+    animType = val;
+    showToast(`Transitions updated`, "info");
+  };
+
+  window.resetQuiz = function() {
+    if (confirm("Reset current statistics and cached metrics?")) {
+      userChoices = {};
+      eliminatedChoices = {};
+      highlightedChoices = {};
+      score = { correct: 0, wrong: 0, answered: new Set() };
+      localStorage.removeItem('AMER_CRUSHER_CHOICES');
+      currentIdx = 0;
+      loadQuestion(0);
+      showToast("Local memory cleared", "info");
+    }
+  };
+
+  window.endQuiz = function() {
+    const total = activePool.length;
+    const answered = score.answered.size;
+    const correctHits = score.correct;
+    const wrongHits = score.wrong;
+    const acc = answered > 0 ? Math.round((correctHits / answered) * 100) : 0;
+
+    // Shift views
+    document.querySelector('.main-grid').style.display = 'none';
+    const results = document.getElementById('resultsScreen');
+    results.style.display = 'block';
+
+    document.getElementById('resCorrect').textContent = correctHits;
+    document.getElementById('resWrong').textContent = wrongHits;
+    document.getElementById('resAcc').textContent = `${acc}%`;
+    document.getElementById('resultsScore').textContent = `${correctHits} / ${total} Correct Target Hits`;
+
+    let evaluationLabel = "";
+    if (acc >= 90) evaluationLabel = "Clinical Consultant Rank achieved! Excellent master accuracy.";
+    else if (acc >= 75) evaluationLabel = "Medical Resident Rank achieved! Strong grasp of OBG parameters.";
+    else evaluationLabel = "Keep Practicing! Retest your incorrect answers below to consolidate knowledge.";
+
+    document.getElementById('resultsMsg').textContent = evaluationLabel;
+    playSynthSound([523, 659, 783, 1046], 0.6, 'sine');
+  };
+
+})();
+</script>
+</body>
+</html>
